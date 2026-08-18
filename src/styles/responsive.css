@@ -1,0 +1,543 @@
+/* ============================================================
+   responsive.css — 화면 폭에 따른 조정
+   기준: 1280 / 1024 / 768 / 480 · 항상 마지막에 불러온다.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   ~1280px — 넓은 데스크톱
+   ------------------------------------------------------------ */
+
+@media (max-width: 1280px) {
+  :root {
+    --page-pad: var(--space-5);
+  }
+}
+
+/* ------------------------------------------------------------
+   ~1024px — 태블릿 가로
+   ------------------------------------------------------------ */
+
+@media (max-width: 1024px) {
+  .chapter-page {
+    gap: var(--space-8);
+    padding-top: var(--space-7);
+    padding-bottom: var(--space-10);
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ------------------------------------------------------------
+   ~768px — 태블릿 세로 / 큰 모바일
+   ------------------------------------------------------------ */
+
+@media (max-width: 768px) {
+  :root {
+    --page-pad: var(--space-4);
+    --fs-2xl: 1.5rem;
+    --fs-3xl: 1.75rem;
+  }
+
+  .chapter-page {
+    gap: var(--space-7);
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-9);
+  }
+
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  /* Dropdown 은 화면 폭 전체를 쓰는 시트처럼 열린다 */
+  .dropdown {
+    position: static;
+  }
+
+  .dropdown-panel {
+    left: var(--space-4);
+    right: var(--space-4);
+    width: auto;
+    max-height: min(75vh, 620px);
+  }
+
+  .dropdown-item {
+    padding: var(--space-3) var(--space-2);
+  }
+
+  .dropdown-q {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  /* SVG 장면은 세로 여유를 더 준다 */
+  .scene-svg {
+    max-height: none;
+    border-radius: var(--radius-md);
+  }
+
+  .toast {
+    left: var(--space-4);
+    right: var(--space-4);
+    bottom: var(--space-5);
+    max-width: none;
+    transform: none;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    text-align: center;
+  }
+
+  .site-footer-inner {
+    padding-top: var(--space-7);
+    padding-bottom: var(--space-8);
+  }
+}
+
+/* 모바일에서는 toast 진입 애니메이션의 가로 중앙 정렬을 쓰지 않는다 */
+@media (max-width: 768px) {
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* ------------------------------------------------------------
+   ~480px — 모바일
+   ------------------------------------------------------------ */
+
+@media (max-width: 480px) {
+  :root {
+    --page-pad: var(--space-3);
+  }
+
+  body {
+    font-size: 0.9375rem;
+  }
+
+  .chapter-page {
+    gap: var(--space-6);
+  }
+
+  .btn {
+    padding-inline: var(--space-4);
+  }
+
+  .btn--sm {
+    padding-inline: var(--space-3);
+  }
+
+  .dropdown-panel {
+    left: var(--space-2);
+    right: var(--space-2);
+    top: calc(100% + var(--space-1));
+  }
+
+  .dropdown-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .dropdown-num {
+    width: 24px;
+    height: 24px;
+  }
+
+  .dropdown-text {
+    font-size: var(--fs-sm);
+  }
+
+  .tag {
+    min-width: 42px;
+    height: 22px;
+    font-size: 0.6875rem;
+  }
+
+  .site-footer-inner p {
+    font-size: var(--fs-xs);
+  }
+}
+
+/* ------------------------------------------------------------
+   가로 폭이 아주 넓은 화면
+   ------------------------------------------------------------ */
+
+@media (min-width: 1600px) {
+  .chapter-page {
+    max-width: var(--page-wide);
+  }
+}
+
+/* ------------------------------------------------------------
+   인쇄
+   ------------------------------------------------------------ */
+
+@media print {
+  .skip-link,
+  .dropdown,
+  .toast {
+    display: none !important;
+  }
+
+  .app {
+    min-height: auto;
+  }
+
+  .chapter-page {
+    gap: var(--space-6);
+    padding: 0;
+    max-width: none;
+  }
+
+  .site-footer {
+    background: none;
+  }
+}
+
+/* ============================================================
+   추가분 — 새 컴포넌트의 반응형
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .site-header-inner {
+    gap: var(--space-3);
+    padding-block: var(--space-3);
+  }
+
+  .site-header-tools {
+    width: 100%;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .arch-path {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .arch-step {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
+  }
+
+  .arch-edge { flex-direction: row; justify-content: center; gap: var(--space-2); }
+
+  .arch-edge-line {
+    width: 2px;
+    height: 18px;
+    clip-path: none;
+  }
+
+  .arch-node { width: 100%; align-items: center; text-align: center; }
+
+  .chapter-nav { flex-direction: column; }
+  .chapter-nav-btn,
+  .chapter-nav-btn--next { align-items: flex-start; text-align: left; }
+
+  .error-body { grid-template-columns: minmax(0, 1fr); gap: var(--space-1); }
+  .error-body dd { margin-bottom: var(--space-2); }
+
+  .step-controls { gap: var(--space-2); }
+  .step-controls .btn { flex: 1 1 auto; }
+  .step-dots { order: -1; width: 100%; flex-basis: 100%; }
+
+  .result-label { min-width: 0; flex-basis: 100%; }
+}
+
+@media (max-width: 480px) {
+  .site-header-title { font-size: var(--fs-xs); }
+  .hero-title { font-size: var(--fs-xl); }
+  .hero-question { font-size: var(--fs-md); }
+  .card { padding: var(--space-4); }
+  .code-panel { padding: var(--space-4); }
+}
+
+/* ============================================================
+   COMPLIANCE — 현재 Chapter 위치는 Mobile 에서도 감춰지지 않는다
+   (25_COURSE_QA §6 / 23_INTERACTIVE_LEARNING_UX §9)
+   ============================================================ */
+
+@media (max-width: 480px) {
+  .role-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1);
+  }
+
+  .step-foot-note { flex-basis: 100%; }
+}
+
+@media (max-width: 768px) {
+  /* 넓은 Section 도 모바일에서는 한 폭으로 */
+  .chapter-page > .section { max-width: none; }
+
+  .role-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1);
+    padding-inline: 0;
+  }
+
+  .activity-panel { padding: var(--space-4); }
+
+  .node-detail p { gap: var(--space-1) var(--space-2); }
+
+  .step-controls .btn { flex: 1 1 40%; }
+
+  .step-foot { gap: var(--space-2); }
+  .step-foot .btn { flex: 1 1 auto; }
+}
+
+/* ============================================================
+   VISUAL POLISH — Mobile Header 밀도
+   정보를 제거하지 않고 시각적 우선순위만 정리한다.
+   1 현재 Chapter  2 Chapter 제목  3 Chapter 선택  4 Motion
+   ============================================================ */
+
+@media (max-width: 480px) {
+  .site-header-inner {
+    gap: var(--space-2);
+    padding-block: var(--space-2);
+  }
+
+  /* 5순위 — Course 이름은 가장 약하게, 한 줄 유지 */
+  .site-header-title {
+    font-size: 0.6875rem;
+    font-weight: var(--fw-semibold);
+    color: var(--text-subtle);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  /* 1순위 — 현재 Chapter */
+  .site-header-chip {
+    padding: 2px var(--space-2);
+    font-size: 0.6875rem;
+  }
+
+  /* 2순위 — Chapter 제목 */
+  .site-header-chapter {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-bold);
+    color: var(--text-strong);
+  }
+
+  .site-header-now { gap: var(--space-2); }
+
+  .site-header-tools {
+    gap: var(--space-2);
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* 4순위 — Motion Control 은 보조 버튼처럼 */
+  .site-header-tools > .btn {
+    order: 2;
+    min-height: 32px;
+    padding-inline: var(--space-2);
+    border-color: transparent;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.6875rem;
+    font-weight: var(--fw-semibold);
+  }
+
+  .site-header-tools > .btn:hover { background: var(--gray-5); }
+
+  /* 3순위 — Chapter 선택은 또렷하게 */
+  .dropdown { order: 3; }
+  .dropdown > .btn { min-height: 34px; font-size: var(--fs-xs); }
+}
+
+/* 375px 대응 — 헤더가 넘치지 않도록 */
+@media (max-width: 400px) {
+  .site-header-brand { width: 100%; min-width: 0; }
+  .site-header-chapter { max-width: 100%; }
+}
+
+/* ---------- Chapter 02 Builder — Mobile 재배치 ---------- */
+
+@media (max-width: 768px) {
+  .builder-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+  }
+
+  .builder-hint { grid-column: 1; }
+
+  .builder-label { padding-top: 0; }
+
+  .choice { flex: 1 1 auto; min-width: 88px; }
+
+  .send-row .btn { flex: 1 1 auto; }
+  .send-note { flex-basis: 100%; }
+
+  .status-meaning { flex-basis: 100%; }
+}
+
+@media (max-width: 480px) {
+  .wire-block { padding: var(--space-3); font-size: var(--fs-xs); }
+  .choice { padding-inline: var(--space-3); }
+}
+
+/* ---------- Chapter 03 Folder Map — Mobile 재배치 ---------- */
+
+@media (max-width: 768px) {
+  .folder-map {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .tree { padding: var(--space-3); }
+  .explore-hint { font-size: var(--fs-xs); }
+  .tree-role { flex-basis: 100%; margin-left: 0; }
+  .pending-cmd { padding: var(--space-3); }
+  .pending-code { flex-basis: 100%; }
+  .pending-note { flex-basis: 100%; }
+}
+
+@media (max-width: 480px) {
+  .tree-row { font-size: var(--fs-xs); }
+  .tree-child { font-size: 0.625rem; }
+  .map-detail-name { font-size: var(--fs-base); }
+}
+
+/* ---------- Chapter 03 File Preview — Mobile ---------- */
+
+@media (max-width: 768px) {
+  .file-head { gap: var(--space-2); }
+  .file-head .code-actions { width: 100%; }
+  .file-head .code-actions .btn { flex: 1 1 auto; }
+  .file-path { flex-basis: 100%; }
+}
+
+@media (max-width: 480px) {
+  .file-code { padding: var(--space-3); font-size: var(--fs-xs); }
+  .file-tab { font-size: 0.625rem; }
+}
+
+/* ---------- Chapter 04 Git Board — Mobile ---------- */
+
+@media (max-width: 768px) {
+  /* Working → Staging → History 를 세로로 잇는다 */
+  .git-board { grid-template-columns: minmax(0, 1fr); }
+  /* 좁은 화면에서는 프롬프트를 윗줄로 올리고 입력칸에 폭을 전부 준다 */
+  .cmd-prompt { flex-basis: 100%; }
+  .cmd-input { flex-basis: 100%; }
+  .cmd-run { flex: 1 1 auto; }
+  .goal-hint-list { flex-basis: 100%; }
+  .cmd-help-what { flex-basis: 100%; }
+}
+
+@media (max-width: 480px) {
+  .cmd-output { padding: var(--space-3); font-size: 0.625rem; max-height: 11rem; }
+  .git-area { padding: var(--space-3); }
+  .goal-panel { padding: var(--space-3) var(--space-4); }
+  .cmd-help-list { padding: var(--space-3); }
+  .cmd-help-foot { padding: 0 var(--space-3) var(--space-3); }
+  .goal-hint-more { flex: 1 1 auto; }
+}
+
+/* ============================================================
+   CHAPTER 05 ~ 15 — Tablet / Mobile
+   Desktop 의 2~3열 구조를 그대로 축소하지 않고 위아래 관계로 다시 잇는다.
+   (04_RESPONSIVE_RULES · 11_PROJECT_UI_SPEC §15)
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  .rest-matrix { grid-template-columns: minmax(7rem, 1fr) repeat(4, minmax(0, 1fr)); }
+  /* Trace 는 좌우 2열 대신 위아래로 — 목록이 먼저, 상세가 아래 */
+  .trace-board { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 768px) {
+  /* 세 저장소 · 두 컴퓨터 · 세 축 → 위아래로 잇는다 */
+  .repo-board { grid-template-columns: minmax(0, 1fr); }
+  .repo-link { padding: var(--space-2) 0; }
+  .repo-link-arrow { display: inline-block; transform: rotate(90deg); }
+  .host-board { grid-template-columns: minmax(0, 1fr); }
+  .axis-board { grid-template-columns: minmax(0, 1fr); }
+  .dockerfile-board { grid-template-columns: minmax(0, 1fr); }
+  .render-board { grid-template-columns: minmax(0, 1fr); }
+  .branch-split { grid-template-columns: minmax(0, 1fr); }
+  .fsm-states { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* REST 매트릭스는 표 모양을 유지하면 칸이 뭉개진다 — 자원별 묶음으로 재구성한다 */
+  .rest-matrix { display: flex; flex-direction: column; gap: var(--space-3); }
+  .rest-corner, .rest-col-head { display: none; }
+  .rest-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+  .rest-row-head { grid-column: 1 / -1; }
+  .rest-cell { min-height: 3.5rem; }
+
+  .trace-controls { gap: var(--space-2); }
+  .trace-count { min-width: 6rem; }
+
+  .repo-row-key, .trace-fact-key, .host-env-key, .img-part-label { flex-basis: 100%; }
+  .final-step { gap: var(--space-1) var(--space-2); }
+  .final-cmd { flex-basis: 100%; }
+}
+
+@media (max-width: 640px) {
+  /* 표는 줄여서 뭉개지 않고 표 자체를 가로 스크롤한다 */
+  .sql-table-wrap { overflow-x: auto; }
+  .sql-table { min-width: 20rem; }
+}
+
+@media (max-width: 480px) {
+  .repo-card, .host-card, .axis-card { padding: var(--space-3); }
+  .compose-map, .compose-net { padding: var(--space-3); }
+  .branch-board, .route-table, .trace-detail { padding: var(--space-3); }
+  .fsm-states { grid-template-columns: minmax(0, 1fr); }
+  .rest-row { grid-template-columns: minmax(0, 1fr); }
+  .dockerfile-code, .trace-data-body { padding: var(--space-3); font-size: 0.6875rem; }
+  .host-output { font-size: 0.625rem; }
+  .final-banner { padding: var(--space-4); font-size: var(--fs-lg); }
+  .sql-table th, .sql-table td { padding: var(--space-2); font-size: var(--fs-xs); }
+  .mini-screen { min-height: 7.5rem; padding: var(--space-4) var(--space-3); }
+  .mini-name { font-size: var(--fs-lg); }
+}
+
+/* ============================================================
+   BEGINNER CLARITY — 새 공통 부품의 Mobile 재배치
+   설명 → 직접 해보기 → 결과 → 자세히 보기 순서를 폭이 좁아져도 유지한다.
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* role-item 이 1열이 되면 뜻풀이도 같은 열로 내려온다 */
+  .role-hint { grid-column: 1; }
+
+  .disclosure-summary { padding: var(--space-3); }
+  .disclosure-body { padding: var(--space-3); }
+  .disclosure-note { flex-basis: 100%; }
+  .disclosure-mark { margin-left: 0; }
+
+  .termline-hint { flex-basis: 100%; }
+  .why-line.is-problem { padding: var(--space-3) var(--space-4); }
+  .one-thing { padding: var(--space-4); }
+  .one-thing-text { font-size: var(--fs-md); }
+  .remember-item { padding: var(--space-3) var(--space-4); }
+
+  .code-focus { padding: var(--space-4) var(--space-3); }
+  .code-focus-lines { font-size: var(--fs-xs); }
+
+  .guided { padding: var(--space-3); }
+  .guided-task { flex-basis: 100%; }
+  .guided-actions .btn { flex: 1 1 auto; }
+  .guided-cmd { flex-basis: 100%; }
+
+  .checkpoint-text { flex-basis: 100%; }
+  .learn-note { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 480px) {
+  .role-hint { grid-column: 1; }
+  .term { gap: var(--space-1); }
+  .term-hint { font-size: 0.6875rem; }
+  .code-focus-lines { padding: var(--space-3); font-size: 0.6875rem; }
+}

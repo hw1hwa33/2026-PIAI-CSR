@@ -1,0 +1,4671 @@
+/* ============================================================
+   components.css — 개별 UI 부품
+     1. Button
+     2. Tag
+     3. Chapter Dropdown
+     4. Toast
+     5. ProcessScene (SVG)
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. Button
+   ------------------------------------------------------------ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text-strong);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--gray-5);
+  border-color: var(--border-strong);
+  color: var(--text-strong);
+}
+
+.btn:active {
+  background: var(--gray-10);
+}
+
+.btn[aria-expanded="true"] {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary-dark);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  background: var(--gray-10);
+  border-color: var(--border-soft);
+  color: var(--text-subtle);
+  cursor: not-allowed;
+}
+
+/* 크기 변형 */
+.btn--sm {
+  min-height: 36px;
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--fs-sm);
+  border-radius: var(--radius-sm);
+}
+
+.btn--lg {
+  min-height: 52px;
+  padding: var(--space-4) var(--space-7);
+  font-size: var(--fs-md);
+}
+
+/* 색 변형 */
+.btn--primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--text-inverse);
+}
+
+.btn--primary:hover {
+  background: var(--primary-strong);
+  border-color: var(--primary-strong);
+  color: var(--text-inverse);
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-link);
+}
+
+.btn--ghost:hover {
+  background: var(--primary-lighter);
+  border-color: transparent;
+}
+
+/* ------------------------------------------------------------
+   2. Tag — 상태 배지 (아직 / 보는 중 / 살펴봄)
+   ------------------------------------------------------------ */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: 2px var(--space-2);
+  min-width: 48px;
+  height: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--gray-5);
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.tag--done {
+  background: var(--success-light);
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.tag--now {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary-dark);
+}
+
+.tag--warn {
+  background: var(--warning-light);
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.tag--error {
+  background: var(--danger-light);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* ------------------------------------------------------------
+   3. Chapter Dropdown — Header 아래로 열린다 (좌측 Drawer 아님)
+   ------------------------------------------------------------ */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-panel {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  z-index: var(--z-dropdown);
+  width: min(420px, calc(100vw - var(--space-8)));
+  max-height: min(70vh, 560px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.dropdown-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex: 0 0 auto;
+  padding: var(--space-4) var(--space-5);
+  background: var(--gray-5);
+  border-bottom: 1px solid var(--border-soft);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.dropdown-head > span:first-child {
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+.dropdown-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-2);
+}
+
+.dropdown-list > li + li {
+  margin-top: 2px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: var(--gray-5);
+}
+
+.dropdown-item.is-active {
+  background: var(--primary-lighter);
+  border-color: var(--primary-light);
+}
+
+.dropdown-item[aria-current="true"] {
+  background: var(--primary-light);
+  border-color: var(--primary);
+}
+
+.dropdown-num {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  background: var(--gray-10);
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.dropdown-item[aria-current="true"] .dropdown-num {
+  background: var(--primary);
+  color: var(--text-inverse);
+}
+
+.dropdown-item:has(.tag--done) .dropdown-num {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.dropdown-text {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+  line-height: var(--lh-snug);
+}
+
+.dropdown-q {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-regular);
+  color: var(--text-muted);
+  line-height: var(--lh-snug);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------
+   4. Toast — App이 화면 하단에 띄우는 알림
+   ------------------------------------------------------------ */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-8);
+  z-index: var(--z-toast);
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: min(560px, calc(100vw - var(--space-8)));
+  padding: var(--space-4) var(--space-6);
+  border: 1px solid var(--border-heavy);
+  border-radius: var(--radius-pill);
+  background: var(--gray-100);
+  color: var(--text-inverse);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+  box-shadow: var(--shadow-lg);
+}
+
+.toast--ok {
+  background: var(--gray-100);
+  border-color: var(--gray-100);
+}
+
+.toast--error {
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+.toast--warn {
+  background: var(--warning);
+  border-color: var(--warning);
+}
+
+/* ------------------------------------------------------------
+   5. ProcessScene — 요청 처리 장면 (SVG)
+   ------------------------------------------------------------ */
+
+.scene-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+  background: var(--surface-alt);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-sans);
+  overflow: visible;
+}
+
+/* --- USER 아이콘 --- */
+
+.node-ico circle {
+  fill: var(--gray-70);
+  stroke: none;
+}
+
+.node-ico path {
+  fill: none;
+  stroke: var(--gray-70);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+/* --- 기기 (컴퓨터 본체 · 라벨) --- */
+
+.machine-body {
+  fill: var(--gray-10);
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+.machine-label {
+  fill: var(--text-muted);
+  font-size: 12px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.02em;
+}
+
+/* --- 브라우저 화면 --- */
+
+.machine-screen {
+  fill: var(--surface);
+  stroke: var(--border-heavy);
+  stroke-width: 1.5;
+}
+
+.machine-bar {
+  fill: var(--gray-5);
+  stroke: var(--border-soft);
+  stroke-width: 1;
+}
+
+.screen-title {
+  fill: var(--text-strong);
+  font-size: 13px;
+  font-weight: var(--fw-bold);
+}
+
+.screen-field {
+  fill: var(--gray-5);
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.screen-hint {
+  fill: var(--text-muted);
+  font-size: 12px;
+}
+
+.screen-btn {
+  fill: var(--primary);
+}
+
+.screen-btn.is-pressed {
+  fill: var(--primary-dark);
+}
+
+.screen-btn-text {
+  fill: var(--text-inverse);
+  font-size: 13px;
+  font-weight: var(--fw-bold);
+  pointer-events: none;
+}
+
+.screen-value {
+  fill: var(--text-strong);
+  font-size: 17px;
+  font-weight: var(--fw-bold);
+}
+
+.screen-score {
+  fill: var(--primary);
+  font-size: 26px;
+  font-weight: var(--fw-extrabold);
+  letter-spacing: -0.02em;
+}
+
+/* --- 서버 랙 --- */
+
+.rack-body {
+  fill: var(--gray-5);
+  stroke: var(--border-heavy);
+  stroke-width: 1.5;
+}
+
+.rack-title {
+  fill: var(--text-muted);
+  font-size: 12px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+}
+
+.bay {
+  fill: var(--surface);
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+.bay.is-done {
+  fill: var(--success-light);
+  stroke: var(--success);
+}
+
+.bay.is-active {
+  fill: var(--primary-light);
+  stroke: var(--primary);
+  stroke-width: 2.5;
+}
+
+.bay-name {
+  fill: var(--text-strong);
+  font-size: 14px;
+  font-weight: var(--fw-bold);
+}
+
+.bay-role {
+  fill: var(--text-muted);
+  font-size: 12px;
+}
+
+.led {
+  fill: var(--gray-30);
+  stroke: var(--surface);
+  stroke-width: 1;
+}
+
+.led.is-on {
+  fill: var(--success);
+}
+
+.led.is-busy {
+  fill: var(--primary);
+}
+
+/* --- 배선 (네트워크 구간) --- */
+
+.wire {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.wire.is-live-req {
+  stroke: var(--request);
+  stroke-width: 3;
+}
+
+.wire.is-live-res {
+  stroke: var(--response);
+  stroke-width: 3;
+}
+
+.wire-label {
+  fill: var(--text-muted);
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+}
+
+/* --- 이동하는 데이터 (점 + 설명 카드) --- */
+
+.packet-group {
+  pointer-events: none;
+}
+
+/* 점: 색으로 채운다 */
+circle.packet-card {
+  fill: var(--primary);
+  stroke: var(--surface);
+  stroke-width: 3;
+}
+
+/* 카드: 흰 배경 + 색 테두리 */
+rect.packet-card {
+  fill: var(--surface);
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 2px 6px rgba(30, 33, 36, 0.14));
+}
+
+.packet-kind {
+  fill: var(--text-strong);
+  font-size: 12px;
+  font-weight: var(--fw-bold);
+}
+
+.packet-line {
+  fill: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+}
+
+/* 종류별 색 — 데이터에 정의된 kind 값에 대응한다.
+   정의되지 않은 kind는 위의 기본값(파랑)을 그대로 쓴다. */
+
+circle.packet-card.is-req,
+circle.packet-card.is-request,
+circle.packet-card.is-http { fill: var(--request); }
+rect.packet-card.is-req,
+rect.packet-card.is-request,
+rect.packet-card.is-http { stroke: var(--request); }
+.packet-kind.is-req,
+.packet-kind.is-request,
+.packet-kind.is-http { fill: var(--request); }
+
+circle.packet-card.is-res,
+circle.packet-card.is-response,
+circle.packet-card.is-json,
+circle.packet-card.is-ok { fill: var(--response); }
+rect.packet-card.is-res,
+rect.packet-card.is-response,
+rect.packet-card.is-json,
+rect.packet-card.is-ok { stroke: var(--response); }
+.packet-kind.is-res,
+.packet-kind.is-response,
+.packet-kind.is-json,
+.packet-kind.is-ok { fill: var(--response); }
+
+circle.packet-card.is-sql,
+circle.packet-card.is-query,
+circle.packet-card.is-data,
+circle.packet-card.is-row { fill: var(--secondary); }
+rect.packet-card.is-sql,
+rect.packet-card.is-query,
+rect.packet-card.is-data,
+rect.packet-card.is-row { stroke: var(--secondary); }
+.packet-kind.is-sql,
+.packet-kind.is-query,
+.packet-kind.is-data,
+.packet-kind.is-row { fill: var(--secondary); }
+
+circle.packet-card.is-err,
+circle.packet-card.is-error,
+circle.packet-card.is-fail { fill: var(--danger); }
+rect.packet-card.is-err,
+rect.packet-card.is-error,
+rect.packet-card.is-fail { stroke: var(--danger); }
+.packet-kind.is-err,
+.packet-kind.is-error,
+.packet-kind.is-fail { fill: var(--danger); }
+
+circle.packet-card.is-warn,
+circle.packet-card.is-wait { fill: var(--warning); }
+rect.packet-card.is-warn,
+rect.packet-card.is-wait { stroke: var(--warning); }
+.packet-kind.is-warn,
+.packet-kind.is-wait { fill: var(--warning); }
+
+/* ============================================================
+   6. Hero · Why · Summary · Nav · Error
+   7. Architecture Map
+   8. Code Explorer
+   9. Result
+   10. Process Activity 조작부
+   (아래는 모두 추가분이다 — 위의 기존 규칙은 그대로 둔다)
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   6-1. Hero
+   ------------------------------------------------------------ */
+
+.hero-eyebrow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.hero-num {
+  font-weight: var(--fw-extrabold);
+  color: var(--primary);
+  letter-spacing: 0.02em;
+}
+
+.hero-total { font-size: var(--fs-xs); }
+
+.hero-title {
+  font-size: var(--fs-3xl);
+  line-height: 1.2;
+}
+
+.hero-question {
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--primary);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  color: var(--primary-dark);
+  line-height: var(--lh-snug);
+}
+
+.hero-intro {
+  font-size: var(--fs-md);
+  color: var(--text-muted);
+  max-width: 62ch;
+}
+
+.hero-goals { background: var(--primary-lighter); border-color: var(--primary-light); }
+
+.check-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.check-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: var(--fs-base);
+  line-height: var(--lh-snug);
+}
+
+.check-mark {
+  flex: 0 0 auto;
+  color: var(--success);
+  font-weight: var(--fw-bold);
+}
+
+/* ------------------------------------------------------------
+   6-2. Summary
+   ------------------------------------------------------------ */
+
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  background: var(--gray-5);
+}
+
+.summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.summary-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  line-height: var(--lh-snug);
+}
+
+.summary-num {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  color: var(--text-inverse);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+}
+
+.summary-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* 사전에 있는 키워드는 뜻을 다시 열 수 있게 [?] 를 붙인다 */
+.summary-keywords > li { min-width: 0; }
+
+.summary-keywords .term {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-pill);
+  background: var(--surface-alt);
+  font-size: var(--fs-xs);
+}
+
+.summary-keywords .term.is-open { flex: 1 1 100%; border-radius: var(--radius-md); }
+
+.summary-next {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-soft);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   6-3. Chapter Nav
+   ------------------------------------------------------------ */
+
+.chapter-nav {
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border-soft);
+}
+
+.chapter-nav-btn {
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  min-height: 0;
+  padding: var(--space-4) var(--space-5);
+  white-space: normal;
+  text-align: left;
+}
+
+.chapter-nav-btn--next {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.chapter-nav-dir {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--primary);
+}
+
+.chapter-nav-title {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+  line-height: var(--lh-snug);
+}
+
+.chapter-nav-empty {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  font-size: var(--fs-sm);
+  color: var(--text-subtle);
+}
+
+/* ------------------------------------------------------------
+   6-5. Error Section
+   ------------------------------------------------------------ */
+
+.error-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.error-item { padding: 0; overflow: hidden; }
+.error-item.is-open { border-color: var(--danger); }
+
+.error-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-4) var(--space-5);
+  cursor: pointer;
+}
+
+.error-head:hover { background: var(--gray-5); }
+
+.error-title {
+  flex: 1 1 auto;
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+  text-align: left;
+  line-height: var(--lh-snug);
+}
+
+.error-toggle { flex: 0 0 auto; color: var(--text-subtle); font-size: var(--fs-xs); }
+
+.error-body {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: var(--space-2) var(--space-4);
+  padding: 0 var(--space-5) var(--space-5);
+  font-size: var(--fs-base);
+  line-height: var(--lh-snug);
+}
+
+.error-body dt { font-weight: var(--fw-bold); color: var(--text-muted); font-size: var(--fs-sm); }
+.error-body dd { margin: 0; color: var(--text); }
+
+/* ------------------------------------------------------------
+   7. Architecture Map
+   ------------------------------------------------------------ */
+
+.arch-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  background: var(--surface-alt);
+}
+
+.arch-path {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.arch-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.arch-edge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+  color: var(--text-subtle);
+}
+
+.arch-edge-line {
+  display: block;
+  width: 34px;
+  height: 2px;
+  background: var(--border-strong);
+  clip-path: polygon(0 0, calc(100% - 6px) 0, calc(100% - 6px) -3px, 100% 50%, calc(100% - 6px) 103%, calc(100% - 6px) 100%, 0 100%);
+}
+
+.arch-edge-label { font-size: 0.6875rem; white-space: nowrap; }
+
+.arch-edge.is-live { color: var(--primary); }
+.arch-edge.is-live .arch-edge-line { background: var(--primary); height: 3px; }
+.arch-edge.is-error { color: var(--danger); }
+.arch-edge.is-error .arch-edge-line { background: var(--danger); height: 3px; }
+
+.arch-node {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 0 0 auto;
+  padding: var(--space-3) var(--space-4);
+  min-width: 104px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.arch-node:hover { border-color: var(--border-strong); }
+
+/* 한글 역할이 Primary, 기술 이름이 Secondary (CLAUDE.md §4) */
+.arch-node-role { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+.arch-node-name { font-size: 0.6875rem; font-weight: var(--fw-semibold); color: var(--text-subtle); font-family: var(--font-mono); }
+
+.arch-node.is-selected { border-color: var(--gray-100); background: var(--gray-5); }
+.arch-node.is-live { border-color: var(--primary); background: var(--primary-light); }
+.arch-node.is-live .arch-node-role { color: var(--primary-dark); }
+.arch-node.is-error { border-color: var(--danger); background: var(--danger-light); }
+.arch-node.is-error .arch-node-role { color: var(--danger); }
+
+.arch-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.arch-legend-item { display: inline-flex; align-items: center; gap: var(--space-2); }
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--border);
+}
+
+.dot--live { background: var(--primary); }
+.dot--selected { background: var(--gray-100); }
+.dot--error { background: var(--danger); }
+
+.arch-detail {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--gray-5);
+  font-size: var(--fs-base);
+  line-height: var(--lh-snug);
+  min-height: 56px;
+}
+
+.arch-detail-empty { color: var(--text-subtle); }
+
+.arch-note { font-size: var(--fs-xs); color: var(--text-subtle); line-height: var(--lh-snug); }
+
+/* ------------------------------------------------------------
+   8. Code Explorer
+   ------------------------------------------------------------ */
+
+.code-card { padding: 0; overflow: hidden; }
+
+.code-tabs {
+  display: flex;
+  gap: 2px;
+  padding: var(--space-2) var(--space-2) 0;
+  background: var(--gray-5);
+  border-bottom: 1px solid var(--border-soft);
+  overflow-x: auto;
+}
+
+.code-tab {
+  flex: 0 0 auto;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.code-tab:hover { color: var(--text-strong); }
+
+.code-tab.is-active {
+  background: var(--surface);
+  border-color: var(--border-soft);
+  color: var(--primary-dark);
+}
+
+.code-panel { padding: var(--space-5); }
+
+.code-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-3);
+}
+
+.code-path {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.code-desc { font-size: var(--fs-sm); color: var(--text-muted); margin-bottom: var(--space-4); }
+
+.code-lines {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--gray-5);
+  padding: var(--space-3) 0;
+  overflow-x: auto;
+}
+
+.code-line { display: flex; align-items: stretch; min-width: 0; }
+
+.code-lineno {
+  flex: 0 0 auto;
+  width: 40px;
+  padding-right: var(--space-3);
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  line-height: 1.7;
+  color: var(--text-subtle);
+  user-select: none;
+}
+
+.code-text {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0 var(--space-4) 0 var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  color: var(--text);
+  white-space: pre;
+  min-width: 0;
+}
+
+.code-text code { font-family: inherit; font-size: inherit; }
+
+.code-text--link { cursor: pointer; text-align: left; }
+.code-text--link:hover { background: var(--primary-light); color: var(--primary-dark); }
+
+.code-locate {
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--gray-20);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: var(--fw-bold);
+  opacity: 0;
+}
+
+.code-text--link:hover .code-locate,
+.code-text--link:focus-visible .code-locate { opacity: 1; }
+
+/* ------------------------------------------------------------
+   9. Result
+   ------------------------------------------------------------ */
+
+.result-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  border-left: 4px solid var(--border);
+}
+
+.result-card.is-success { border-left-color: var(--success); background: var(--surface-alt); }
+.result-card.is-error { border-left-color: var(--danger); background: var(--danger-light); }
+
+.result-head { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.result-title { font-size: var(--fs-md); color: var(--text-strong); }
+.result-text { font-size: var(--fs-base); color: var(--text-muted); }
+
+.result-rows { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.result-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.result-label {
+  flex: 0 0 auto;
+  min-width: 88px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--text-muted);
+}
+
+.result-value {
+  flex: 1 1 200px;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text-strong);
+  word-break: break-all;
+}
+
+.result-raw { border-top: 1px solid var(--border-soft); padding-top: var(--space-4); }
+
+.result-raw-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--text-muted);
+}
+
+.result-raw pre {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+  color: #e9ebee;
+  font-size: var(--fs-xs);
+  line-height: 1.7;
+}
+
+/* ------------------------------------------------------------
+   10. Process Activity 조작부
+   ------------------------------------------------------------ */
+
+.activity-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5);
+}
+
+.scene-wrap { min-width: 0; }
+.scene-wrap:focus { outline: none; }
+
+.step-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-5);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--primary-lighter);
+  min-height: 108px;
+}
+
+.step-count {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.step-id { font-family: var(--font-mono); color: var(--text-subtle); font-weight: var(--fw-regular); }
+
+.step-title { font-size: var(--fs-lg); color: var(--text-strong); }
+.step-text { font-size: var(--fs-base); color: var(--text-muted); line-height: var(--lh-snug); }
+
+.step-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.step-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1 1 auto;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--gray-20);
+}
+
+.step-dot.is-done { background: var(--success); }
+.step-dot.is-active { width: 22px; background: var(--primary); }
+
+.step-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-soft);
+}
+
+/* ============================================================
+   COMPLIANCE — 11_PROJECT_UI_SPEC §15 Content Width & Layout
+   읽기 영역은 820px, 코드 / Activity / Visualization 만 1120px 로 넓힌다.
+   (기존 규칙은 지우지 않고 아래에서 좁힌다)
+   ============================================================ */
+
+.chapter-page {
+  max-width: var(--wide-max);
+}
+
+/* 기본은 읽기 폭 */
+.chapter-page > .section {
+  width: 100%;
+  max-width: var(--reading-max);
+  margin-inline: auto;
+}
+
+/* 시각화 · 코드 · Activity · Result 는 넓게 */
+.chapter-page > .section:has(.arch-panel),
+.chapter-page > .section:has(.code-card),
+.chapter-page > .section:has(.activity-panel),
+.chapter-page > .section:has(.result-card) {
+  max-width: var(--wide-max);
+}
+
+/* 넓은 Section 안에서도 제목과 설명은 읽기 폭을 유지한다 */
+.chapter-page > .section:has(.activity-panel) > .section-title,
+.chapter-page > .section:has(.activity-panel) > .section-desc,
+.chapter-page > .section:has(.code-card) > .section-title,
+.chapter-page > .section:has(.code-card) > .section-desc,
+.chapter-page > .section:has(.arch-panel) > .section-title,
+.chapter-page > .section:has(.arch-panel) > .section-desc {
+  max-width: var(--reading-max);
+  width: 100%;
+}
+
+/* :has() 미지원 브라우저 대비 — 최소한 넘치지 않게 한다 */
+@supports not selector(:has(*)) {
+  .chapter-page > .section { max-width: var(--wide-max); }
+}
+
+/* ------------------------------------------------------------
+   Panel — §17 Card Usage
+   Card 는 독립 정보 단위에만. 조작 가능한 표면만 Panel 로 감싼다.
+   (Activity / Code / Result / Error / Knowledge Check / 상태 Preview)
+   ------------------------------------------------------------ */
+
+.panel {
+  padding: var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  min-width: 0;
+}
+
+/* ------------------------------------------------------------
+   설명 구간은 Card 없이 Typography 와 구분선으로 구조화한다
+   ------------------------------------------------------------ */
+
+.hero-goals {
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border-soft);
+}
+
+.hero-goals-title {
+  margin-bottom: var(--space-3);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.summary-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5) 0 0;
+  border-top: 2px solid var(--text-strong);
+}
+
+.summary-position,
+.summary-next {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-soft);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  line-height: var(--lh-snug);
+}
+
+.summary-position-label,
+.summary-next-label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+/* ---------- Concept — 역할 먼저, 기술 이름은 뒤 ---------- */
+
+.concept-lead {
+  font-size: var(--fs-md);
+  color: var(--text);
+  max-width: 62ch;
+}
+
+.role-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.role-item {
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+  gap: var(--space-2) var(--space-5);
+  padding: var(--space-4) var(--space-2);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.role-item.is-selected {
+  background: var(--primary-lighter);
+  box-shadow: inset 3px 0 0 var(--primary);
+}
+
+.role-term {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.role-role {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+  line-height: var(--lh-snug);
+}
+
+.role-tech {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  text-align: left;
+}
+
+.role-tech--link {
+  color: var(--text-link);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.role-tech--link:hover { color: var(--primary-dark); }
+.role-item.is-selected .role-tech--link { color: var(--primary-dark); font-weight: var(--fw-bold); }
+
+.role-desc {
+  margin: 0;
+  font-size: var(--fs-base);
+  color: var(--text);
+  line-height: var(--lh-loose);
+}
+
+/* 기술 이름 뜻풀이 — 본문 설명(role-desc)을 대체하지 않고 한 번 더 쉬운 말로 붙인다 */
+.role-hint {
+  grid-column: 2;
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--border);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--gray-5);
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+  line-height: var(--lh-snug);
+}
+
+.role-hint-label {
+  flex: 0 0 auto;
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+.concept-note {
+  padding: var(--space-4) var(--space-5);
+  border-left: 3px solid var(--border-strong);
+  background: var(--gray-5);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  line-height: var(--lh-loose);
+}
+
+/* ------------------------------------------------------------
+   Process Activity — SPEC §10 조작부 추가분
+   ------------------------------------------------------------ */
+
+.activity-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5);
+}
+
+/* §4 Fake Data 금지 — Mock 임을 명시한다 */
+.mock-note {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+/* SPEC §10.3 — 장면 안에서 선택한 Node 의 역할 설명 */
+.node-detail {
+  min-height: 52px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--gray-5);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
+}
+
+.node-detail p {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.node-detail-role,
+.arch-detail-role {
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--gray-20);
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+}
+
+.node-detail-empty { color: var(--text-subtle); }
+
+/* SPEC §8.1 — 단계마다 데이터의 의미가 함께 바뀐다 */
+.step-preview {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px dashed var(--border);
+}
+
+.step-preview-label {
+  flex: 0 0 auto;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--primary-dark);
+}
+
+.step-preview-value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-strong);
+  word-break: break-all;
+}
+
+.step-foot-note {
+  font-size: var(--fs-xs);
+  color: var(--text-subtle);
+}
+
+.btn.is-playing {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary-dark);
+}
+
+/* Copy State — idle → copying → copied / copy_error */
+.code-copy.is-copied { border-color: var(--success); color: var(--success); background: var(--success-light); }
+.code-copy.is-copy_error { border-color: var(--danger); color: var(--danger); background: var(--danger-light); }
+
+.code-actions { display: inline-flex; gap: var(--space-2); flex-wrap: wrap; }
+
+.code-lang {
+  margin-left: var(--space-2);
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--gray-10);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------
+   Scene — Node 선택 (SPEC §10.3 / §18)
+   ------------------------------------------------------------ */
+
+.scene-hit { cursor: pointer; }
+
+.scene-hit-area {
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 2;
+}
+
+.scene-hit:hover .scene-hit-area { stroke: var(--border-strong); }
+
+.scene-hit.is-selected .scene-hit-area {
+  stroke: var(--text-strong);
+  stroke-width: 2.5;
+  stroke-dasharray: 5 3;
+}
+
+.scene-hit:focus { outline: none; }
+
+.scene-hit:focus-visible .scene-hit-area {
+  stroke: var(--focus-ring);
+  stroke-width: 3.5;
+  stroke-dasharray: none;
+}
+
+.bay.is-selected { stroke: var(--text-strong); stroke-width: 2.5; }
+
+/* 활성 계층은 색 외에 텍스트로도 알린다 (색만으로 상태 전달 금지) */
+.bay-state {
+  fill: var(--primary-dark);
+  font-size: 11px;
+  font-weight: var(--fw-bold);
+}
+
+/* ------------------------------------------------------------
+   Packet — SPEC §15 packetState : idle | request | sql | dbResult | response
+   Request 와 Response 는 색 + 라벨 + 방향 + 점선으로 구분한다.
+   ------------------------------------------------------------ */
+
+circle.packet-card.is-request { fill: var(--request); }
+rect.packet-card.is-request { stroke: var(--request); stroke-width: 2; }
+.packet-kind.is-request { fill: var(--request); }
+
+circle.packet-card.is-sql { fill: var(--sql); }
+rect.packet-card.is-sql { stroke: var(--sql); stroke-width: 2; }
+.packet-kind.is-sql { fill: var(--sql); }
+
+circle.packet-card.is-dbResult { fill: var(--db-result); }
+rect.packet-card.is-dbResult { stroke: var(--db-result); stroke-width: 2; }
+.packet-kind.is-dbResult { fill: var(--db-result); }
+
+circle.packet-card.is-response { fill: var(--response); }
+rect.packet-card.is-response { stroke: var(--response); stroke-width: 2; stroke-dasharray: 6 3; }
+.packet-kind.is-response { fill: var(--response); }
+
+.wire.is-live-req { stroke: var(--request); }
+.wire.is-live-res { stroke: var(--response); }
+
+/* ------------------------------------------------------------
+   Architecture — 축 구분 (23_INTERACTIVE_LEARNING_UX §1)
+   Runtime 경로 / DEVELOPMENT / RUNTIME ENVIRONMENT 를 시각적으로 분리한다.
+   ------------------------------------------------------------ */
+
+.arch-axis-label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.arch-aside {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4) var(--space-8);
+  padding-top: var(--space-4);
+  border-top: 1px dashed var(--border);
+}
+
+.arch-axis {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.arch-axis-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.arch-axis-node {
+  padding: 2px var(--space-3);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--gray-5);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--text-muted);
+}
+
+.arch-axis-link { color: var(--text-subtle); font-size: var(--fs-xs); }
+
+/* 별도 축도 한글 역할이 Primary, 기술 이름이 Secondary */
+.arch-axis-node { display: inline-flex; align-items: baseline; gap: var(--space-2); }
+.arch-axis-role { font-weight: var(--fw-bold); color: var(--text-strong); }
+.arch-axis-name { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--text-on-fill); }
+.arch-axis-node.is-focus .arch-axis-role { color: var(--primary-dark); }
+.arch-axis-tech { margin-left: var(--space-2); font-family: var(--font-mono); font-weight: var(--fw-regular); letter-spacing: 0; color: var(--text-on-fill); }
+
+.arch-axis-desc {
+  font-size: var(--fs-xs);
+  color: var(--text-subtle);
+}
+
+/* 04_RESPONSIVE_RULES §7 — 제목은 유동 크기 */
+.hero-title { font-size: clamp(1.5rem, 1.1rem + 2vw, 2.125rem); }
+.section-title { font-size: clamp(1.125rem, 0.98rem + 0.7vw, 1.375rem); }
+
+/* Hero CTA — 첫 화면에서 다음 행동을 명확히 한다 */
+.hero-cta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.hero-cta .btn { text-decoration: none; }
+.hero-cta .btn:hover { color: var(--text-inverse); }
+
+.hero-cta-note {
+  font-size: var(--fs-xs);
+  color: var(--text-subtle);
+}
+
+/* ============================================================
+   CHAPTER 01 VISUAL POLISH
+   1. Request / Response 위계   2. Server Node 상태 차등
+   3. Browser 상태 변화        4. Scene Typography 위계
+   5. 하단 설명 UI 경량화
+   (기존 규칙은 지우지 않고 아래에서 덮어쓴다)
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. Request / Response — 위로 나가고 아래로 돌아온다
+   색 + 방향(화살표 글자) + 선 패턴 + 굵기로 구분한다.
+   ------------------------------------------------------------ */
+
+.wire-label {
+  font-size: 12.5px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: -0.01em;
+}
+
+.wire-label--req { fill: var(--request); }
+.wire-label--res { fill: var(--response); }
+
+.wire-label.is-live {
+  font-size: 13.5px;
+  font-weight: var(--fw-extrabold);
+}
+
+/* 대기 상태에서도 두 경로의 선 패턴이 다르다 (색맹 대비) */
+.wire--req { stroke-dasharray: none; }
+.wire--res { stroke-dasharray: 6 4; }
+
+.wire--req.is-live-req,
+.wire--res.is-live-res { stroke-width: 3.5; }
+
+/* 모바일 NETWORK 구간 이름 */
+.band-label {
+  fill: var(--text-subtle);
+  font-size: 11.5px;
+  font-weight: var(--fw-extrabold);
+  letter-spacing: 0.18em;
+}
+
+/* ------------------------------------------------------------
+   2. Server Node 상태 차등 — future < done < active
+   Glow 대신 테두리 · 채움 · LED · 상태 텍스트로 구분한다.
+   ------------------------------------------------------------ */
+
+/* future / idle — 아직 도달하지 않음 */
+.bay {
+  fill: var(--gray-5);
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+/* visited / done — 통과함. success 계열이지만 약하게 */
+.bay.is-done {
+  fill: var(--surface);
+  stroke: var(--success);
+  stroke-width: 1.5;
+}
+
+/* active — 지금 처리 중. 가장 강하게 (채움 + 테두리 + LED + 텍스트) */
+.bay.is-active {
+  fill: var(--primary-light);
+  stroke: var(--primary);
+  stroke-width: 3;
+}
+
+.bay.is-selected { stroke: var(--text-strong); stroke-width: 2.5; }
+
+.bay-state {
+  font-size: 10.5px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.02em;
+}
+
+.bay-state.is-active { fill: var(--primary-dark); }
+.bay-state.is-done { fill: var(--success); font-weight: var(--fw-semibold); }
+
+/* LED — 세 단계가 서로 다른 밝기를 갖는다 */
+.led { fill: var(--gray-30); stroke: var(--gray-5); stroke-width: 1; }
+.led.is-on { fill: var(--success); stroke: var(--success-light); stroke-width: 2.5; }
+.led.is-busy { fill: var(--primary); stroke: var(--primary-light); stroke-width: 4; }
+
+/* ------------------------------------------------------------
+   3. Computer / Browser — 시작이자 끝. 상태 변화를 분명히.
+   ------------------------------------------------------------ */
+
+.machine-screen { fill: var(--surface); stroke: var(--border-heavy); stroke-width: 1.5; }
+.machine-screen.is-loading { stroke: var(--primary); stroke-width: 2; }
+
+/* 응답이 돌아와서 생긴 결과임이 보이도록 응답 색과 맞춘다 */
+.machine-screen.is-success { stroke: var(--response); stroke-width: 2.5; }
+.screen-score { fill: var(--response); font-size: 27px; }
+.screen-value { fill: var(--text-strong); font-size: 17px; }
+
+/* ------------------------------------------------------------
+   4. Scene Typography — 주요 개념과 보조 설명의 위계
+   ------------------------------------------------------------ */
+
+.machine-label {
+  fill: var(--gray-70);
+  font-size: 12.5px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.04em;
+}
+
+.rack-title {
+  fill: var(--gray-70);
+  font-size: 12.5px;
+  font-weight: var(--fw-extrabold);
+  letter-spacing: 0.14em;
+}
+
+/* 도달 전(future)은 muted, 통과 후는 본문색, 처리 중은 강조색.
+   muted 라도 gray-5 배경 위에서 WCAG AA(4.5:1) 를 지킨다 — #5c646c = 5.51:1 */
+.bay-name { fill: var(--text-on-fill); font-size: 14.5px; font-weight: var(--fw-bold); }
+.bay.is-done ~ .bay-name { fill: var(--text-strong); }
+.bay.is-active ~ .bay-name { fill: var(--primary-dark); }
+
+.bay-role { fill: var(--text-on-fill-soft); font-size: 12px; font-weight: var(--fw-regular); }
+.bay.is-done ~ .bay-role,
+.bay.is-active ~ .bay-role { fill: var(--text-muted); }
+
+.screen-title { fill: var(--text-strong); font-size: 13px; font-weight: var(--fw-bold); }
+.screen-hint { fill: var(--text-muted); font-size: 12px; }
+
+.scene-svg {
+  background: var(--surface);
+  border-color: var(--border-soft);
+}
+
+/* ------------------------------------------------------------
+   5. 하단 설명 UI 경량화 — Status Panel 이 아니라 교재 본문처럼
+   조작부(버튼)는 그대로 두고 설명 영역의 면만 걷어낸다.
+   ------------------------------------------------------------ */
+
+.node-detail {
+  padding: var(--space-3) 0 0;
+  border-top: 1px solid var(--border-soft);
+  border-radius: 0;
+  background: transparent;
+  min-height: 44px;
+}
+
+.node-detail-role,
+/* 기술 이름은 역할 뒤에 붙는 보조 표기다 */
+.arch-detail-role {
+  padding: 0;
+  background: none;
+  color: var(--text-subtle);
+  font-family: var(--font-mono);
+  font-weight: var(--fw-regular);
+}
+
+.node-detail-role::before,
+.arch-detail-role::before { content: "· "; }
+.node-detail-role::after,
+.arch-detail-role::after { content: " ·"; }
+
+.step-info {
+  padding: var(--space-4) 0 0;
+  border-left: 0;
+  border-top: 1px solid var(--border-soft);
+  border-radius: 0;
+  background: transparent;
+  min-height: 96px;
+}
+
+.step-count {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.step-count::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+}
+
+.step-title { font-size: var(--fs-lg); color: var(--text-strong); }
+.step-text { color: var(--text); }
+
+.step-preview {
+  border-top: 0;
+  padding-top: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+.step-preview-label {
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--gray-5);
+  color: var(--text-muted);
+}
+
+.mock-note { color: var(--text-subtle); }
+
+.activity-panel { gap: var(--space-4); }
+
+/* ============================================================
+   CHAPTER 02 — Request Builder / Response Inspector
+   Chapter 01 의 Token · Panel · Typography · Code UX 를 그대로 재사용한다.
+   새 디자인 언어를 만들지 않는다.
+   ============================================================ */
+
+/* ---------- Builder ---------- */
+
+.builder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.builder-title {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.builder-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 190px) minmax(0, 1fr);
+  gap: var(--space-2) var(--space-5);
+  align-items: start;
+}
+
+.builder-row.is-off { opacity: 0.55; }
+
+.builder-label {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+  padding-top: var(--space-2);
+}
+
+.choice-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.choice {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  align-items: flex-start;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.choice:hover:not(:disabled) { border-color: var(--border-strong); background: var(--gray-5); }
+
+.choice.is-picked {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.choice:disabled { cursor: default; }
+.choice-group .choice:disabled:not(.is-picked) { opacity: 0.5; }
+
+.choice-main {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+.choice.is-picked .choice-main { color: var(--primary-dark); }
+
+.choice-sub { font-size: 0.6875rem; color: var(--text-muted); }
+.choice.is-picked .choice-sub { color: var(--text-on-fill); }
+
+.builder-hint {
+  grid-column: 2;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  line-height: var(--lh-snug);
+}
+
+/* ---------- 조립된 Request / 돌아온 Response ---------- */
+
+.wire-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-soft);
+}
+
+.wire-block {
+  display: block;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--border-strong);
+  background: var(--gray-5);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  overflow-x: auto;
+}
+
+/* 요청은 warm, 응답은 cool — Chapter 01 과 같은 색 약속 */
+.wire-block--req { border-left-color: var(--request); }
+.wire-block--res { border-left-color: var(--response); }
+
+.wire-block code { display: flex; flex-direction: column; font: inherit; }
+
+.wire-line { white-space: pre; color: var(--text-strong); }
+.wire-line--dim { color: var(--text-on-fill); }
+.wire-line--body { color: var(--text); }
+
+/* 클릭해서 역할을 볼 수 있는 부분 */
+.part {
+  font: inherit;
+  color: var(--text-strong);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+}
+
+.part--method { color: var(--request); font-weight: var(--fw-bold); }
+.part--path { color: var(--primary-dark); }
+.part:hover { background: var(--primary-light); }
+
+.send-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.send-note { font-size: var(--fs-xs); color: var(--text-muted); }
+
+/* ---------- Response Inspector ---------- */
+
+.inspector-empty {
+  padding: var(--space-5) var(--space-4);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  text-align: center;
+}
+
+.status-line {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+}
+
+.status-code {
+  padding: 2px var(--space-3);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-extrabold);
+  color: var(--text-strong);
+  cursor: pointer;
+}
+
+/* 숫자만으로 성공/실패를 구분하지 않는다 — 테두리와 문구를 함께 쓴다 */
+.status-line.is-ok .status-code { border-color: var(--response); color: var(--response); background: var(--response-light); }
+.status-line.is-error .status-code { border-color: var(--danger); color: var(--danger); background: var(--danger-light); }
+
+.status-text {
+  font-family: var(--font-mono);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+.status-meaning {
+  flex: 1 1 220px;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  line-height: var(--lh-snug);
+}
+
+.inspector-summary {
+  font-size: var(--fs-base);
+  color: var(--text);
+  line-height: var(--lh-loose);
+}
+
+.inspector-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+/* ---------- 부분 설명 (Ch01 의 node-detail 과 같은 톤) ---------- */
+
+.part-detail {
+  padding: var(--space-3) 0 0;
+  border-top: 1px solid var(--border-soft);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
+  min-height: 44px;
+}
+
+.part-detail p { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); }
+
+.part-detail-role {
+  color: var(--text-subtle);
+  font-weight: var(--fw-semibold);
+}
+
+.part-detail-role::before { content: "· "; }
+.part-detail-role::after { content: " ·"; }
+
+.part-detail-empty { color: var(--text-subtle); }
+
+/* ------------------------------------------------------------
+   Architecture — 이번 Chapter 범위 밖 Node (muted / future)
+   전체 구조는 항상 그대로 두고 강조 범위만 다르게 표시한다.
+   색만으로 구분하지 않도록 라벨 · 점선 테두리를 함께 사용한다.
+   ------------------------------------------------------------ */
+
+.arch-node.is-muted {
+  border-style: dashed;
+  border-color: var(--border);
+  background: var(--gray-5);
+}
+
+.arch-node.is-muted .arch-node-name { color: var(--text-on-fill-soft); }
+.arch-node.is-muted .arch-node-role { color: var(--text-on-fill); }
+
+.arch-node-scope {
+  margin-top: 2px;
+  font-size: 0.625rem;
+  font-weight: var(--fw-semibold);
+  color: var(--text-on-fill-soft);
+  letter-spacing: -0.01em;
+}
+
+.arch-node.is-muted:hover {
+  border-color: var(--border-strong);
+  background: var(--gray-10);
+}
+
+/* 선택 · 지금 단계 · 오류 상태는 muted 보다 우선한다 */
+.arch-node.is-muted.is-selected {
+  border-style: solid;
+  border-color: var(--gray-100);
+  background: var(--gray-10);
+}
+
+.arch-edge.is-muted { color: var(--text-on-fill); }
+.arch-edge.is-muted .arch-edge-line {
+  background: repeating-linear-gradient(
+    to right,
+    var(--border) 0 4px,
+    transparent 4px 8px
+  );
+  clip-path: none;
+}
+
+.dot--muted {
+  background: var(--gray-5);
+  border: 1px dashed var(--border-strong);
+}
+
+.arch-detail-scope {
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--border);
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+  line-height: var(--lh-snug);
+}
+
+/* ============================================================
+   CHAPTER 03 — Folder Tree 자유 탐색
+   Chapter 01 · 02 의 Token · Panel · Typography 를 그대로 재사용한다.
+   점수형 진행률(match-progress · match-count)은 두지 않는다. (CLAUDE.md)
+   ============================================================ */
+
+.folder-map {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  gap: var(--space-5) var(--space-6);
+  align-items: start;
+}
+
+/* ---------- Folder Tree ---------- */
+
+.tree {
+  padding: var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--gray-5);
+  font-family: var(--font-mono);
+  min-width: 0;
+}
+
+.tree-root {
+  margin-bottom: var(--space-2);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+.tree-list { display: flex; flex-direction: column; gap: 1px; }
+
+.tree-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 36px;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  text-align: left;
+  cursor: pointer;
+}
+
+.tree-row:hover { background: var(--gray-10); }
+
+.tree-row.is-active {
+  background: var(--primary-light);
+  border-color: var(--primary);
+}
+
+.tree-row.is-solved { background: var(--success-light); }
+.tree-row.is-solved.is-active { background: var(--primary-light); border-color: var(--primary); }
+
+.tree-branch { flex: 0 0 auto; color: var(--text-on-fill-soft); }
+
+.tree-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--text-strong);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 폴더와 파일을 형태로도 구분한다 */
+.tree-name.is-dir { font-weight: var(--fw-bold); }
+.tree-name.is-file { font-weight: var(--fw-regular); color: var(--text-on-fill); }
+
+.tree-row.is-info .tree-name { color: var(--text-on-fill-soft); }
+
+.tree-mark {
+  flex: 0 0 auto;
+  color: var(--success);
+  font-weight: var(--fw-bold);
+}
+
+.tree-note {
+  flex: 0 0 auto;
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  color: var(--text-on-fill-soft);
+}
+
+.tree-children {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: var(--space-1) 0 var(--space-2) var(--space-4);
+}
+
+.tree-child {
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- 선택 항목 상세 + 매칭 ---------- */
+
+.map-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.map-detail-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+}
+
+.map-detail-name {
+  font-family: var(--font-mono);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+.map-detail-role {
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--gray-5);
+  color: var(--text-on-fill);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+}
+
+.map-detail-why {
+  font-size: var(--fs-base);
+  color: var(--text);
+  line-height: var(--lh-loose);
+}
+
+.map-detail-note {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--border-strong);
+  background: var(--gray-5);
+  font-size: var(--fs-sm);
+  color: var(--text-on-fill);
+  line-height: var(--lh-snug);
+}
+
+.map-choices { display: flex; flex-direction: column; gap: var(--space-3); }
+
+.map-choices-q {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+/* 정답 표시가 아니라 "이 폴더는 여기에 해당한다"는 안내다 */
+.map-answer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--primary-lighter);
+  font-size: var(--fs-base);
+}
+
+.map-answer-axis {
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+}
+
+.map-foot {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-soft);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  line-height: var(--lh-snug);
+}
+
+/* 선택된 실행 환경 / 관리 축 표시 — Runtime Hop 으로 그리지 않는다 */
+.arch-axis-node.is-selected {
+  border-style: solid;
+  border-color: var(--gray-100);
+  background: var(--gray-10);
+  color: var(--text-strong);
+}
+
+/* ------------------------------------------------------------
+   Chapter 03 — File Preview (Folder → File → Code → System Role)
+   Legacy 교안의 파일별 예제 코드를 현재 구조로 옮긴 영역.
+   Code UX 는 공통 CodeExplorer 와 같은 규칙을 따른다.
+   ------------------------------------------------------------ */
+
+.tree-child-branch { color: var(--text-on-fill-soft); }
+
+.tree-file {
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-link);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+}
+
+.tree-file:hover { background: var(--primary-light); color: var(--primary-dark); }
+
+/* 선택 상태를 색만으로 알리지 않는다 — 굵기와 밑줄 형태도 함께 바꾼다 */
+.tree-file.is-open {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: var(--fw-bold);
+  text-decoration-style: solid;
+}
+
+.tree-file-note {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill-soft);
+}
+
+.map-detail-change {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  line-height: var(--lh-snug);
+}
+
+.map-detail-misread {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  line-height: var(--lh-snug);
+}
+
+.file-preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-soft);
+  min-width: 0;
+}
+
+.file-tabs {
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.file-tab {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.file-tab.is-active {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: var(--fw-bold);
+}
+
+.file-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.file-path {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.file-purpose {
+  font-size: var(--fs-base);
+  color: var(--text);
+  line-height: var(--lh-snug);
+}
+
+.file-here {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--border-strong);
+  background: var(--gray-5);
+  font-size: var(--fs-sm);
+  color: var(--text-on-fill);
+  line-height: var(--lh-snug);
+}
+
+.file-here-label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+.file-code {
+  padding: var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--gray-5);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  color: var(--text-strong);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* ============================================================
+   CHAPTER 04 — Working Directory → Staging → History
+   Chapter 01~03 의 Token · Panel · Typography 를 그대로 재사용한다.
+   ============================================================ */
+
+/* ---------- 세 자리 보드 ---------- */
+
+.git-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.git-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+  min-width: 0;
+}
+
+/* 세 자리를 위치 + 테두리 색으로 함께 구분한다 */
+.git-area.is-working { border-left: 3px solid var(--border-strong); }
+.git-area.is-staging { border-left: 3px solid var(--primary); }
+.git-area.is-history { border-left: 3px solid var(--success); }
+
+.git-area-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.git-area-name {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+.git-area-ko { font-size: var(--fs-xs); color: var(--text-muted); }
+
+.git-area-desc {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  line-height: var(--lh-snug);
+}
+
+.git-items { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.git-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  min-width: 0;
+}
+
+.git-item .btn { align-self: flex-start; margin-top: var(--space-1); }
+
+.git-item.is-staged { border-color: var(--primary); background: var(--primary-lighter); }
+.git-item.is-commit { border-color: var(--success); background: var(--success-light); }
+
+.git-item-path {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+  overflow-wrap: anywhere;
+}
+
+.git-item-change {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  line-height: var(--lh-snug);
+  overflow-wrap: anywhere;
+}
+
+.git-item-hash {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-extrabold);
+  color: var(--success);
+}
+
+.git-empty {
+  padding: var(--space-3);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill-soft);
+  text-align: center;
+}
+
+/* .gitignore 로 제외된 파일 — 목록에 올라가지 않음을 보여 준다 */
+.git-ignored {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-2) var(--space-3);
+  border-top: 1px dashed var(--border);
+  opacity: 0.75;
+}
+
+.git-ignored .git-item-path { text-decoration: line-through; color: var(--text-on-fill-soft); }
+
+.git-area-foot {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border-soft);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  line-height: var(--lh-snug);
+}
+
+/* ---------- 실행 결과 ---------- */
+
+.cmd-result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-soft);
+  min-width: 0;
+}
+
+.cmd-output-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* 복사는 이 화면의 주 행동이 아니다 — 버튼이 아니라 헤더의 보조 동작으로 둔다 */
+.cmd-output-head .code-copy {
+  flex: 0 0 auto;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--text-on-fill);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cmd-output-head .code-copy:hover:not(:disabled) {
+  background: transparent;
+  color: var(--text-strong);
+}
+
+.cmd-output-head .code-copy:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/*
+ * 입력한 명령과 결과가 함께 쌓이는 곳 — 별도 이력 UI 를 두지 않는다.
+ * 로그를 읽기에는 충분하되, 아래 Git State Board 보다 커 보이지 않는 높이로 묶는다.
+ * 넘치는 만큼은 안에서 스크롤한다.
+ */
+.cmd-output {
+  max-height: 16rem;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+  color: #e9ebee;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  line-height: 1.7;
+  overflow: auto;
+  white-space: pre;
+}
+
+.cmd-output:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* 내가 친 명령은 결과보다 밝게 — 인과 관계가 보이도록 */
+.cmd-echo {
+  font-weight: var(--fw-bold);
+  color: #ffffff;
+}
+
+.cmd-echo-prompt { color: #9fd0a8; }
+
+.cmd-caret { color: #9fd0a8; }
+
+.cmd-note {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+}
+
+.cmd-detail {
+  flex: 1 1 16rem;
+  min-width: 0;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  line-height: var(--lh-loose);
+}
+
+.cmd-empty {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+/* ---------- 관리 축 focus (Chapter 04) ---------- */
+
+.arch-axis-node.is-focus {
+  border-style: solid;
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: var(--fw-bold);
+}
+
+.arch-axis-badge {
+  margin-left: var(--space-2);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  color: var(--text-inverse);
+  font-size: 0.625rem;
+  font-weight: var(--fw-bold);
+}
+
+/* ============================================================
+   ACCESSIBILITY FIX
+   연한 채움(surface-alt / gray-5) 위의 보조 텍스트에 쓰이던
+   --text-muted / --text-subtle(#6d7882) 는 해당 배경에서 4.13~4.39:1 로
+   WCAG AA(4.5:1)에 미달한다. 같은 시각 위계를 유지하면서 AA 를 만족하는
+   --text-on-fill(5.51~5.85:1) 로 교체한다. 색 이외의 표현은 바꾸지 않는다.
+   (Chapter 01~03 에도 함께 적용되는 기존 결함 수정)
+   ============================================================ */
+
+.arch-axis-label,
+.arch-legend,
+.arch-axis-desc,
+.arch-note,
+.arch-detail-empty,
+.arch-axis-node {
+  color: var(--text-on-fill);
+}
+
+.git-area-ko,
+.git-area-desc,
+.git-area-foot {
+  color: var(--text-on-fill);
+}
+
+/* ------------------------------------------------------------
+   Chapter 04 — Beginner Safety 고지
+   실제 Git 프로세스를 실행하지 않는다는 점을 조작부보다 먼저 알린다.
+   (25_COURSE_QA §5 · CLAUDE.md Hard Rules)
+   ------------------------------------------------------------ */
+
+/* Activity 에서 가장 큰 시각 요소가 되지 않도록 한 줄짜리 compact note 로 둔다 */
+.sim-notice {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--warning);
+  border-radius: var(--radius-sm);
+  background: var(--warning-light);
+  line-height: var(--lh-snug);
+}
+
+.sim-notice-title {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+.sim-notice-body {
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+}
+
+/* 출력이 실제 Git 출력이 아님을 출력 바로 위에서 알린다 */
+.cmd-output-label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--text-on-fill);
+}
+
+/* ------------------------------------------------------------
+   Chapter 04 — 지금 할 일
+   정답 명령을 처음부터 보여 주지 않는다. 힌트는 단계적으로만 열린다.
+   ------------------------------------------------------------ */
+
+.goal-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+}
+
+.goal-task {
+  flex: 1 1 14rem;
+  min-width: 0;
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+  line-height: var(--lh-snug);
+}
+
+.goal-hint {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+}
+
+.goal-hint-label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--text-on-fill);
+}
+
+.goal-hint-list {
+  flex: 1 1 16rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.goal-hint-item {
+  font-size: var(--fs-sm);
+  color: var(--text);
+  line-height: var(--lh-snug);
+}
+
+.goal-hint-cmd {
+  display: inline-block;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--gray-5);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+  overflow-wrap: anywhere;
+}
+
+.goal-hint-more { flex: 0 0 auto; }
+
+.goal-tip {
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+  line-height: var(--lh-snug);
+}
+
+/* ------------------------------------------------------------
+   Chapter 04 — Git Command Input
+   Primary Interaction 은 "직접 타이핑" 이다. 이 화면에서 가장 강한 조작 요소로 둔다.
+   실제 Terminal 창처럼 꾸미지 않는다 — 라벨 있는 폼 필드다.
+   ------------------------------------------------------------ */
+
+.cmd-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.cmd-form-label {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+.cmd-input-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.cmd-input-row:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-lighter);
+}
+
+.cmd-prompt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-on-fill);
+  white-space: nowrap;
+}
+
+.cmd-input {
+  flex: 1 1 12rem;
+  min-width: 0;
+  min-height: 52px;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: var(--fs-md);
+  color: var(--text-strong);
+}
+
+.cmd-input:focus { outline: none; }
+.cmd-input::placeholder { color: var(--text-subtle); }
+
+.cmd-run { flex: 0 0 auto; }
+
+.cmd-form-help {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  line-height: var(--lh-snug);
+}
+
+/* ------------------------------------------------------------
+   Chapter 04 — 명령어 도움말
+   기본은 접혀 있다. 버튼 그리드가 아니라 읽는 목록이다.
+   ------------------------------------------------------------ */
+
+.cmd-help {
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+}
+
+.cmd-help-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--fs-sm);
+  color: var(--text-on-fill);
+  cursor: pointer;
+}
+
+.cmd-help-summary::-webkit-details-marker { display: none; }
+.cmd-help-summary::marker { content: ""; }
+
+.cmd-help-caret { display: inline-block; font-size: var(--fs-xs); }
+.cmd-help[open] .cmd-help-caret { transform: rotate(180deg); }
+.cmd-help[open] .cmd-help-summary { border-bottom: 1px solid var(--border-soft); }
+
+.cmd-help-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+
+.cmd-help-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  min-width: 0;
+}
+
+.cmd-help-what {
+  flex: 0 0 9rem;
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+}
+
+.cmd-help-cmd {
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-strong);
+  overflow-wrap: anywhere;
+}
+
+.cmd-help-foot {
+  padding: 0 var(--space-4) var(--space-4);
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+  line-height: var(--lh-snug);
+}
+
+/* ============================================================
+   CHAPTER 05 — Local ↔ GitHub ↔ 다른 컴퓨터
+   같은 기록이 어디에 있고 어디에 없는지를 비교하는 것이 핵심이다.
+   ============================================================ */
+
+.repo-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  align-items: stretch;
+}
+
+.repo-cell { display: flex; flex-direction: column; min-width: 0; }
+
+.repo-link {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding-bottom: var(--space-2);
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+}
+
+.repo-link-arrow { font-size: var(--fs-md); font-weight: var(--fw-bold); }
+.repo-link.is-live { color: var(--primary-dark); font-weight: var(--fw-bold); }
+.repo-link.is-live .repo-link-arrow { color: var(--primary); }
+
+.repo-card {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+  min-width: 0;
+}
+
+.repo-card.is-live { border-left-color: var(--primary); background: var(--primary-lighter); }
+
+.repo-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2); }
+
+.repo-name {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.repo-name.is-selected { color: var(--primary-dark); }
+.repo-tech { font-size: var(--fs-xs); color: var(--text-on-fill); }
+.repo-desc { font-size: var(--fs-xs); color: var(--text-on-fill); line-height: var(--lh-snug); }
+
+.repo-sync {
+  align-self: flex-start;
+  padding: 2px var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-size: 0.6875rem;
+  font-weight: var(--fw-semibold);
+  color: var(--text-on-fill);
+}
+
+.repo-commits { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.repo-commit {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  min-width: 0;
+}
+
+.repo-hash {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-extrabold);
+  color: var(--success);
+}
+
+.repo-msg {
+  font-size: 0.6875rem;
+  color: var(--text);
+  line-height: var(--lh-snug);
+  overflow-wrap: anywhere;
+}
+
+.repo-head-tag { font-size: 0.625rem; color: var(--text-on-fill); }
+
+.repo-empty {
+  padding: var(--space-3);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+  text-align: center;
+}
+
+.repo-actions { display: flex; flex-direction: column; gap: var(--space-2); }
+.repo-action-list { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.repo-action {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  min-width: 0;
+}
+
+.repo-run.is-last { border-color: var(--primary); background: var(--primary-lighter); }
+.repo-action-where { font-size: var(--fs-xs); color: var(--text-on-fill); }
+
+.repo-action-cmd {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-strong);
+  overflow-wrap: anywhere;
+}
+
+.repo-result-title { font-size: var(--fs-base); font-weight: var(--fw-bold); color: var(--text-strong); }
+
+.repo-rows { display: flex; flex-direction: column; gap: var(--space-1); }
+
+.repo-rows li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.repo-row-key { flex: 0 0 9rem; font-size: var(--fs-xs); color: var(--text-muted); }
+
+.repo-row-val {
+  flex: 1 1 12rem;
+  min-width: 0;
+  font-size: var(--fs-xs);
+  color: var(--text-strong);
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+/* ============================================================
+   CHAPTER 06 — 같은 코드, 다른 컴퓨터 / Image ↔ Container
+   ============================================================ */
+
+.host-board {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.host-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-top: 3px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+  min-width: 0;
+}
+
+.host-card.is-ok { border-top-color: var(--success); }
+.host-card.is-fail { border-top-color: var(--danger); }
+
+.host-head { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); }
+.host-name { font-size: var(--fs-md); font-weight: var(--fw-bold); color: var(--text-strong); }
+.host-note { font-size: var(--fs-xs); color: var(--text-on-fill); line-height: var(--lh-snug); }
+
+.host-env { display: flex; flex-direction: column; gap: 2px; }
+
+.host-env li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  font-size: var(--fs-xs);
+}
+
+.host-env-key { flex: 0 0 8rem; color: var(--text-on-fill); }
+.host-env-val { color: var(--text-strong); font-weight: var(--fw-semibold); }
+
+.host-run {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-strong);
+  overflow-wrap: anywhere;
+}
+
+.host-output {
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--gray-100);
+  color: #e9ebee;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.host-verdict { font-size: var(--fs-xs); color: var(--text); line-height: var(--lh-snug); }
+.host-idle { font-size: var(--fs-xs); color: var(--text-on-fill); }
+
+.compare-note {
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius-sm);
+  background: var(--primary-lighter);
+  font-size: var(--fs-base);
+  color: var(--text);
+  line-height: var(--lh-snug);
+}
+
+.img-run { display: flex; flex-direction: column; gap: var(--space-3); }
+
+.img-card {
+  padding: var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+}
+
+.img-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2); }
+
+.img-kind {
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--gray-100);
+  color: var(--text-inverse);
+  font-size: 0.625rem;
+  font-weight: var(--fw-bold);
+}
+
+.img-name { font-family: var(--font-mono); font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+.img-sub { font-size: var(--fs-xs); color: var(--text-on-fill); }
+
+.img-parts { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-3); }
+
+.img-part { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }
+.img-part-label { flex: 0 0 9rem; font-size: var(--fs-xs); font-weight: var(--fw-semibold); color: var(--text-strong); }
+.img-part-value { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-strong); overflow-wrap: anywhere; }
+.img-part-desc { font-size: var(--fs-xs); color: var(--text-on-fill); }
+
+.img-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }
+.img-hint { font-size: var(--fs-xs); color: var(--text-muted); }
+
+.container-list { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.container-item {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--success);
+  border-radius: var(--radius-sm);
+  background: var(--success-light);
+}
+
+.container-name { font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: var(--fw-bold); color: var(--text-strong); }
+.container-from { font-size: var(--fs-xs); color: var(--text-on-fill); }
+
+.container-empty {
+  padding: var(--space-3);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   CHAPTER 07 — Dockerfile → Image Layer
+   ============================================================ */
+
+.dockerfile-board {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.dockerfile-pane, .layer-pane { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+
+.dockerfile-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-2); }
+.dockerfile-path { font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: var(--fw-bold); color: var(--text-strong); }
+.dockerfile-path-inline { color: #9fd0a8; }
+
+.dockerfile-code {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+  color: #e9ebee;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  line-height: 1.8;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.dockerfile-line { display: block; }
+.dockerfile-line.is-new { color: #ffffff; font-weight: var(--fw-bold); }
+.dockerfile-line.is-hot { background: #33363d; color: #ffffff; font-weight: var(--fw-bold); }
+.dockerfile-empty { color: #b1b8be; }
+
+.layer-head { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+
+.layer-stack { display: flex; flex-direction: column; gap: var(--space-1); }
+
+.layer-item {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.layer-item.is-new { border-color: var(--primary); background: var(--primary-lighter); }
+.layer-item.is-meta { border-style: dashed; background: var(--surface-alt); }
+
+.layer-n {
+  flex: 0 0 2.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+.layer-label { flex: 1 1 8rem; min-width: 0; font-size: var(--fs-xs); color: var(--text); overflow-wrap: anywhere; }
+.layer-tag { font-size: 0.625rem; color: var(--text-on-fill); }
+
+.layer-empty {
+  padding: var(--space-3);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.layer-foot { font-size: var(--fs-xs); color: var(--text-muted); line-height: var(--lh-snug); }
+
+.line-pick { display: flex; flex-direction: column; gap: var(--space-2); }
+.line-list { display: flex; flex-direction: column; gap: var(--space-2); }
+.line-option { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-3); min-width: 0; }
+.line-btn { text-align: left; }
+.line-code { font-family: var(--font-mono); font-size: var(--fs-xs); overflow-wrap: anywhere; }
+.line-goal { font-size: var(--fs-xs); color: var(--text-muted); }
+
+/* ============================================================
+   CHAPTER 08 — Compose Service Map
+   ============================================================ */
+
+.compose-map {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+}
+
+.compose-outside { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }
+.compose-outside-label { font-size: var(--fs-xs); font-weight: var(--fw-bold); color: var(--text-strong); }
+
+.compose-port {
+  padding: 2px var(--space-2);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-pill);
+  font-size: 0.6875rem;
+  color: var(--text-on-fill);
+}
+
+.compose-port.is-open { border-style: solid; border-color: var(--success); color: var(--success); font-weight: var(--fw-bold); }
+
+.compose-net {
+  padding: var(--space-4);
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.compose-net-label { font-size: var(--fs-xs); color: var(--text-muted); margin-bottom: var(--space-3); }
+
+.compose-services { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.compose-service {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  text-align: left;
+  cursor: pointer;
+}
+
+.compose-service.is-up { border-left-color: var(--success); }
+.compose-service.is-waiting { border-left-color: var(--warning); border-style: dashed; }
+.compose-service.is-picked { border-color: var(--primary); background: var(--primary-lighter); }
+
+.compose-waiting {
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--warning-light);
+  color: var(--warning);
+  font-size: 0.625rem;
+  font-weight: var(--fw-bold);
+}
+
+.compose-service.is-waiting .compose-service-state { color: var(--warning); font-weight: var(--fw-bold); }
+
+/* 지금 누르면 실행될 명령 */
+.pending-cmd {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--warning);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--warning-light);
+}
+
+.pending-label {
+  flex: 0 0 auto;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--warning);
+}
+
+.pending-code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+  overflow-wrap: anywhere;
+}
+
+.pending-note {
+  flex: 1 1 12rem;
+  min-width: 0;
+  font-size: var(--fs-xs);
+  color: var(--text);
+  line-height: var(--lh-snug);
+}
+
+.pending-note code { font-family: var(--font-mono); font-weight: var(--fw-semibold); }
+
+/* 여러 명령을 순서대로 쌓아 보여 줄 때 */
+.cmd-block { display: block; }
+
+.compose-service-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2); }
+.compose-service-name { font-family: var(--font-mono); font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+.compose-service-tech { font-size: var(--fs-xs); color: var(--text-on-fill); }
+.compose-service-role { font-size: var(--fs-xs); color: var(--text-muted); }
+.compose-service-addr { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--text-on-fill); overflow-wrap: anywhere; }
+.compose-service-state { font-size: 0.6875rem; font-weight: var(--fw-semibold); color: var(--text-on-fill); }
+.compose-service.is-up .compose-service-state { color: var(--success); }
+
+.compose-volume { font-size: 0.625rem; color: var(--text-on-fill); }
+
+.compose-dep {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  padding: var(--space-1) var(--space-4);
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+}
+
+.compose-dep-tech { font-family: var(--font-mono); font-size: 0.625rem; color: var(--text-on-fill); }
+.compose-foot { font-size: var(--fs-xs); color: var(--text-on-fill); line-height: var(--lh-snug); }
+
+.compose-run { display: flex; flex-direction: column; gap: var(--space-3); }
+.compose-detail { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+
+/* ============================================================
+   CHAPTER 09 — State / Event / Render
+   ============================================================ */
+
+.fsm { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.fsm-states {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.fsm-state {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  min-width: 0;
+}
+
+.fsm-state.is-seen { border-color: var(--border-strong); }
+.fsm-state.is-now { border-color: var(--primary); border-width: 2px; background: var(--primary-lighter); }
+
+.fsm-state-ko { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+.fsm-state-label { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-on-fill); }
+.fsm-now { font-size: 0.625rem; font-weight: var(--fw-bold); color: var(--primary-dark); }
+
+.fsm-desc {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--gray-5);
+  font-size: var(--fs-sm);
+  color: var(--text);
+  line-height: var(--lh-snug);
+}
+
+.fsm-events { display: flex; flex-direction: column; gap: var(--space-2); }
+.fsm-event-list { display: flex; flex-direction: column; gap: var(--space-2); }
+.fsm-event { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }
+.fsm-event-btn.is-server { border-style: dashed; }
+.fsm-event-kind { font-size: var(--fs-xs); color: var(--text-on-fill); }
+.fsm-event-to { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-muted); }
+
+.render-board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.render-screen, .render-code { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.render-screen-head { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+
+.mini-screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-4);
+  border: 2px solid var(--border-heavy);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  text-align: center;
+  min-height: 9rem;
+  justify-content: center;
+}
+
+.mini-screen.is-loading { background: var(--gray-5); }
+.mini-screen.is-success { border-color: var(--success); background: var(--success-light); }
+.mini-screen.is-error { border-color: var(--danger); background: var(--danger-light); }
+
+.mini-title { font-size: var(--fs-xs); color: var(--text-on-fill); }
+.mini-body { font-size: var(--fs-base); color: var(--text); }
+.mini-body.is-error { color: var(--danger); font-weight: var(--fw-semibold); }
+.mini-name { font-size: var(--fs-xl); font-weight: var(--fw-extrabold); color: var(--text-strong); }
+.mini-score { font-size: var(--fs-lg); font-weight: var(--fw-bold); color: var(--success); }
+.mini-sub { font-size: var(--fs-xs); color: var(--text-on-fill); }
+
+.mini-btn {
+  align-self: center;
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: var(--text-inverse);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+}
+
+.render-note { font-size: var(--fs-xs); color: var(--text-muted); line-height: var(--lh-snug); }
+
+/* ============================================================
+   CHAPTER 10 — Nginx Route Branch
+   ============================================================ */
+
+.branch-board {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+}
+
+.branch-in { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }
+.branch-in-label { font-size: var(--fs-xs); color: var(--text-on-fill); }
+.branch-in-path { font-family: var(--font-mono); font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+
+.rule-list { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.rule {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  min-width: 0;
+}
+
+.rule.is-hit { border-left-color: var(--border-strong); }
+.rule.is-win { border-color: var(--primary); border-left-color: var(--primary); background: var(--primary-lighter); }
+
+.rule-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }
+.rule-prefix { font-family: var(--font-mono); font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+.rule-state { font-size: var(--fs-xs); color: var(--text-on-fill); }
+.rule.is-win .rule-state { color: var(--primary-dark); font-weight: var(--fw-bold); }
+.rule-body { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text); overflow-wrap: anywhere; }
+.rule-role { font-size: var(--fs-xs); color: var(--text-muted); }
+
+.branch-split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+
+.branch-arm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  min-width: 0;
+}
+
+.branch-arm.is-taken { border-style: solid; border-color: var(--primary); background: var(--primary-light); }
+.branch-arm-label { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+.branch-arm-sub { font-size: var(--fs-xs); color: var(--text-on-fill); line-height: var(--lh-snug); }
+
+.branch-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-left: var(--space-5);
+  list-style: decimal;
+}
+
+.branch-steps li { font-size: var(--fs-sm); color: var(--text); line-height: var(--lh-snug); }
+
+/* ============================================================
+   CHAPTER 11 — Flask Route Matching
+   ============================================================ */
+
+.route-table {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+}
+
+.route-table-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: var(--space-2); }
+.route-table-title { display: inline-flex; align-items: baseline; gap: var(--space-2); font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+.route-table-tech { font-family: var(--font-mono); font-size: 0.625rem; font-weight: var(--fw-regular); color: var(--text-on-fill); }
+.builder-label-tech { display: block; font-family: var(--font-mono); font-size: 0.625rem; font-weight: var(--fw-regular); color: var(--text-on-fill); }
+.route-table-file { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-on-fill); }
+
+.route-rows { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.route-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  min-width: 0;
+}
+
+.route-row.is-win { border-color: var(--success); border-left-color: var(--success); background: var(--success-light); }
+.route-row.is-partial { border-color: var(--warning); border-left-color: var(--warning); background: var(--warning-light); }
+
+.route-decorator { font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: var(--fw-bold); color: var(--text-strong); overflow-wrap: anywhere; }
+.route-fn { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-on-fill); }
+.route-desc { font-size: var(--fs-xs); color: var(--text-muted); }
+
+.route-test { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-1); }
+
+.route-flag {
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: 0.625rem;
+  font-weight: var(--fw-semibold);
+}
+
+.route-flag.is-ok { background: var(--success-light); color: var(--success); }
+.route-flag.is-no { background: var(--gray-10); color: var(--text-on-fill); }
+.route-why { font-size: 0.6875rem; color: var(--text-on-fill); }
+
+/* 주소 → 등록된 주소 모양 → 실행된 함수 (Chapter 11 핵심 시각화) */
+.bind-chain {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.bind-node {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 11rem;
+  min-width: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.bind-node.is-hit { border-color: var(--success); background: var(--success-light); }
+.bind-node.is-miss { border-style: dashed; background: var(--gray-5); }
+
+.bind-role { font-size: var(--fs-xs); color: var(--text-on-fill); }
+.bind-value { font-family: var(--font-mono); font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); overflow-wrap: anywhere; }
+.bind-arrow { align-self: center; flex: 0 0 auto; color: var(--text-on-fill); }
+
+.bind-note {
+  font-size: var(--fs-sm);
+  color: var(--text);
+  line-height: var(--lh-snug);
+}
+
+.bind-note code { font-weight: var(--fw-bold); color: var(--text-strong); }
+
+.route-none {
+  padding: var(--space-3);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-sm);
+  background: var(--danger-light);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--danger);
+}
+
+/* ============================================================
+   CHAPTER 12 — REST Method × Resource Matrix
+   ============================================================ */
+
+.rest-matrix {
+  display: grid;
+  grid-template-columns: minmax(9rem, 1.4fr) repeat(4, minmax(0, 1fr));
+  gap: var(--space-2);
+  align-items: stretch;
+}
+
+.rest-corner { display: flex; flex-direction: column; gap: 2px; justify-content: flex-end; }
+.rest-corner-x { font-size: var(--fs-xs); font-weight: var(--fw-bold); color: var(--text-strong); }
+.rest-corner-y { font-size: 0.6875rem; color: var(--text-on-fill); }
+
+.rest-col-head { display: flex; flex-direction: column; align-items: center; gap: 2px; justify-content: flex-end; }
+.rest-method { font-family: var(--font-mono); font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+.rest-method-ko { font-size: 0.6875rem; color: var(--text-on-fill); }
+
+.rest-row { display: contents; }
+
+.rest-row-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--surface-alt);
+  min-width: 0;
+}
+
+.rest-path { font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: var(--fw-bold); color: var(--text-strong); overflow-wrap: anywhere; }
+.rest-row-label { font-size: var(--fs-xs); color: var(--text-on-fill); }
+.rest-row-means { font-size: 0.6875rem; color: var(--text-on-fill); line-height: var(--lh-snug); }
+
+.rest-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 4.5rem;
+  padding: var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.rest-cell.is-blocked { border-style: dashed; background: var(--gray-5); }
+.rest-cell.is-picked { border-color: var(--primary); border-width: 2px; background: var(--primary-lighter); }
+.rest-cell.is-solved { border-color: var(--success); background: var(--success-light); }
+
+.rest-cell-status { font-family: var(--font-mono); font-size: var(--fs-md); font-weight: var(--fw-extrabold); color: var(--text-strong); }
+.rest-cell.is-blocked .rest-cell-status { color: var(--text-on-fill); }
+.rest-cell-note { font-size: 0.625rem; color: var(--text-on-fill); text-align: center; }
+.rest-cell-mark { font-size: 0.625rem; font-weight: var(--fw-bold); color: var(--success); }
+
+.rest-legend { font-size: var(--fs-xs); color: var(--text-muted); line-height: var(--lh-snug); }
+
+/* 상황 → 대상 · 동작 선택으로 만들어진 요청 한 줄 */
+.rest-built {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.rest-built-label { font-size: var(--fs-xs); color: var(--text-on-fill); }
+.rest-built-line {
+  font-family: var(--font-mono);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-extrabold);
+  color: var(--text-strong);
+  overflow-wrap: anywhere;
+}
+
+/* ============================================================
+   CHAPTER 13 — SQL Table / Row → JSON
+   ============================================================ */
+
+.sql-table-wrap { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.sql-table-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }
+.sql-table-name { font-family: var(--font-mono); font-size: var(--fs-md); font-weight: var(--fw-bold); color: var(--text-strong); }
+.sql-table-file { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-on-fill); }
+
+.sql-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.sql-caption {
+  caption-side: top;
+  padding-bottom: var(--space-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--text-muted);
+  text-align: left;
+}
+
+.sql-table.is-danger { border-color: var(--danger); }
+.sql-table.is-danger .sql-caption { color: var(--danger); }
+
+.sql-table th, .sql-table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border-soft);
+  font-size: var(--fs-sm);
+  text-align: left;
+}
+
+.sql-table th { background: var(--gray-5); vertical-align: bottom; }
+.sql-col { display: block; font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: var(--fw-bold); color: var(--text-strong); }
+.sql-col-type { display: block; font-size: 0.625rem; color: var(--text-on-fill); }
+.sql-table td { color: var(--text); }
+
+.sql-table tr.is-hit td { background: var(--primary-lighter); font-weight: var(--fw-semibold); }
+.sql-table tr.is-warn td { background: var(--danger-light); }
+
+.sql-mark {
+  margin-left: var(--space-2);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  color: var(--text-inverse);
+  font-size: 0.625rem;
+  font-weight: var(--fw-bold);
+}
+
+.sql-table tr.is-warn .sql-mark { background: var(--danger); }
+
+.sql-pick { display: flex; flex-direction: column; gap: var(--space-2); }
+.sql-list { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.sql-option {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--border);
+  border-radius: var(--radius-sm);
+  min-width: 0;
+}
+
+.sql-option.is-danger { border-left-color: var(--danger); background: var(--danger-light); }
+.sql-btn.is-last { border-color: var(--primary); background: var(--primary-lighter); }
+.sql-code { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-strong); overflow-wrap: anywhere; }
+.sql-desc { font-size: var(--fs-xs); color: var(--text-on-fill); }
+.sql-json-head { font-size: var(--fs-xs); font-weight: var(--fw-semibold); color: var(--text-muted); }
+
+/* 표 구조 심화 — 첫 화면에는 나오지 않는다 */
+.sql-schema { display: flex; flex-direction: column; gap: var(--space-3); }
+.sql-schema-item { display: flex; flex-direction: column; gap: var(--space-1); }
+.sql-schema-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }
+.sql-schema-label { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+.sql-schema-id { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-on-fill); }
+.sql-schema-role { flex: 1 1 12rem; min-width: 0; font-size: var(--fs-xs); color: var(--text-on-fill); }
+
+.sql-schema-parts { display: flex; flex-direction: column; gap: 2px; padding-left: var(--space-4); }
+.sql-schema-parts li { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }
+.sql-schema-mark { font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: var(--fw-bold); color: var(--text-strong); }
+.sql-schema-desc { flex: 1 1 12rem; min-width: 0; font-size: var(--fs-xs); color: var(--text-on-fill); line-height: var(--lh-snug); }
+
+/* %s · (1,) 즉시 설명 */
+.sql-params { display: flex; flex-direction: column; gap: var(--space-1); }
+
+.sql-param {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--sql);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--sql-light);
+}
+
+.sql-param-mark { font-family: var(--font-mono); font-size: var(--fs-sm); font-weight: var(--fw-extrabold); color: var(--sql); }
+.sql-param-role { font-size: var(--fs-xs); font-weight: var(--fw-bold); color: var(--text-strong); }
+.sql-param-desc { flex: 1 1 14rem; min-width: 0; font-size: var(--fs-xs); color: var(--text); line-height: var(--lh-snug); }
+
+/* ============================================================
+   CHAPTER 14 — Full Request → Response Trace
+   PROCESS_ANIMATION_SPEC 적용. Chapter 01 Scene 을 복제하지 않는다.
+   ============================================================ */
+
+.trace-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--gray-5);
+}
+
+.trace-count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+  min-width: 8rem;
+  text-align: center;
+}
+
+.trace-foot { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }
+.trace-foot-note { font-size: var(--fs-xs); color: var(--text-muted); }
+
+.shape-chain-lead { font-size: var(--fs-sm); color: var(--text); line-height: var(--lh-snug); }
+.shape-chain { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-1); }
+.shape-item { display: inline-flex; align-items: center; gap: var(--space-1); }
+.shape-arrow { color: var(--text-on-fill); }
+
+.shape-badge {
+  padding: 2px var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-size: 0.6875rem;
+  font-weight: var(--fw-semibold);
+  color: var(--text-on-fill);
+}
+
+.shape-badge.is-on { border-color: var(--border-heavy); color: var(--text-strong); }
+.shape-badge.is-http.is-on { border-color: var(--request); background: var(--request-light); color: var(--request); }
+.shape-badge.is-sql.is-on { border-color: var(--sql); background: var(--sql-light); color: var(--sql); }
+.shape-badge.is-row.is-on { border-color: var(--db-result); background: var(--db-result-light); color: var(--db-result); }
+.shape-badge.is-json.is-on { border-color: var(--response); background: var(--response-light); color: var(--response); }
+.shape-badge.is-screen.is-on { border-color: var(--primary); background: var(--primary-light); color: var(--primary-dark); }
+
+.trace-board {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.trace-list { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+
+.trace-step {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid transparent;
+  border-left: 3px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.trace-step.is-done { border-left-color: var(--border-strong); }
+.trace-step.is-now { border-color: var(--primary); border-left-color: var(--primary); background: var(--primary-lighter); }
+.trace-step.is-req.is-now { border-left-color: var(--request); }
+.trace-step.is-res.is-now { border-left-color: var(--response); }
+
+.trace-n { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-on-fill); }
+.trace-title { font-size: var(--fs-sm); color: var(--text); min-width: 0; }
+.trace-step.is-now .trace-title { font-weight: var(--fw-bold); color: var(--text-strong); }
+.trace-tech { font-size: 0.625rem; color: var(--text-on-fill); }
+.trace-dir { grid-column: 2 / -1; font-size: 0.625rem; color: var(--text-on-fill); }
+
+.trace-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+  min-width: 0;
+}
+
+.trace-detail-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2); }
+.trace-detail-n { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-on-fill); }
+.trace-detail-title { font-size: var(--fs-lg); font-weight: var(--fw-bold); color: var(--text-strong); }
+
+.trace-badge {
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: 0.625rem;
+  font-weight: var(--fw-bold);
+}
+
+.trace-badge.is-req { background: var(--request-light); color: var(--request); }
+.trace-badge.is-res { background: var(--response-light); color: var(--response); }
+
+.trace-what { font-size: var(--fs-base); color: var(--text); line-height: var(--lh-snug); }
+.trace-why { font-size: var(--fs-sm); color: var(--text-on-fill); line-height: var(--lh-loose); }
+
+.trace-facts { display: flex; flex-direction: column; gap: var(--space-1); }
+
+.trace-facts li {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.trace-fact-key { flex: 0 0 7rem; font-size: var(--fs-xs); color: var(--text-on-fill); }
+.trace-fact-val { flex: 1 1 12rem; min-width: 0; font-size: var(--fs-xs); color: var(--text-strong); overflow-wrap: anywhere; }
+.trace-fact-code { font-family: var(--font-mono); }
+
+.trace-data { display: flex; flex-direction: column; gap: var(--space-2); }
+.trace-data-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2); font-size: var(--fs-xs); font-weight: var(--fw-semibold); color: var(--text-muted); }
+
+.trace-data-body {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--gray-100);
+  color: #e9ebee;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  line-height: 1.7;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* ============================================================
+   CHAPTER 15 — 세 축 보드 + 전체 순환
+   ============================================================ */
+
+.axis-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  align-items: start;
+}
+
+.axis-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border-soft);
+  border-top: 3px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+  min-width: 0;
+}
+
+.axis-card.is-runtime { border-top-color: var(--primary); }
+.axis-card.is-source { border-top-color: var(--sql); }
+.axis-card.is-env { border-top-color: var(--db-result); }
+
+.axis-head { display: flex; flex-direction: column; gap: 2px; }
+.axis-ko { font-size: var(--fs-base); font-weight: var(--fw-bold); color: var(--text-strong); }
+.axis-label { font-family: var(--font-mono); font-size: 0.6875rem; font-weight: var(--fw-semibold); letter-spacing: 0; color: var(--text-on-fill); }
+.axis-desc { font-size: var(--fs-xs); color: var(--text-on-fill); line-height: var(--lh-snug); }
+
+.axis-nodes { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.axis-node {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  text-align: left;
+  cursor: pointer;
+}
+
+.axis-node.is-up { border-color: var(--success); background: var(--success-light); }
+.axis-node.is-selected { outline: 2px solid var(--primary); outline-offset: 1px; }
+.axis-node-name { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+.axis-node-role { font-size: 0.6875rem; color: var(--text-on-fill); }
+.axis-node-state { font-size: 0.6875rem; font-weight: var(--fw-semibold); color: var(--text-on-fill); }
+.axis-node.is-up .axis-node-state { color: var(--success); }
+
+.axis-state {
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+}
+
+.axis-note { font-size: 0.625rem; color: var(--text-on-fill); }
+
+.final-steps { display: flex; flex-direction: column; gap: var(--space-2); }
+.final-list { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.final-step {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--border);
+  border-radius: var(--radius-sm);
+  min-width: 0;
+}
+
+.final-step.is-source { border-left-color: var(--sql); }
+.final-step.is-env { border-left-color: var(--db-result); }
+.final-step.is-runtime { border-left-color: var(--primary); }
+.final-step.is-done { background: var(--success-light); }
+.final-btn.is-last { border-color: var(--primary); background: var(--primary-lighter); }
+.final-goal { font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--text-strong); }
+
+.final-axis {
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--gray-10);
+  font-size: 0.625rem;
+  font-weight: var(--fw-semibold);
+  color: var(--text-on-fill);
+}
+
+.final-cmd { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-on-fill); overflow-wrap: anywhere; }
+.final-lock { font-size: 0.6875rem; color: var(--warning); font-weight: var(--fw-semibold); }
+
+/* 완료 조건 배지 대신 "언제 쓰는지"만 적는다 */
+.final-n {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-pill);
+  background: var(--gray-10);
+  color: var(--text-on-fill);
+  font-size: 0.625rem;
+  font-weight: var(--fw-bold);
+}
+
+.final-step.is-done .final-n { background: var(--success); color: var(--text-inverse); }
+
+.final-use {
+  flex: 1 1 10rem;
+  min-width: 0;
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+}
+
+.danger-note {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--danger);
+  border-left-width: 3px;
+  border-radius: var(--radius-md);
+  background: var(--danger-light);
+}
+
+.danger-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2); }
+.danger-cmd { font-family: var(--font-mono); font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--danger); }
+.danger-title { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+.danger-body { font-size: var(--fs-xs); color: var(--text); line-height: var(--lh-snug); }
+
+.final-banner {
+  padding: var(--space-5);
+  border: 2px solid var(--success);
+  border-radius: var(--radius-md);
+  background: var(--success-light);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-extrabold);
+  letter-spacing: -0.01em;
+  color: var(--success);
+  text-align: center;
+}
+
+/* 고정 해시가 예시 값임을 표시 */
+.git-item-example {
+  margin-left: var(--space-2);
+  padding: 0 var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text-on-fill);
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: var(--fw-semibold);
+}
+
+/* ============================================================
+   BEGINNER CLARITY — 용어 표시 · 펼침 설명 · 첫 화면 정보량 제한
+   역할(쉬운 한국어)이 Primary, 기술 이름이 Secondary 다.
+   ============================================================ */
+
+/* ---------- TermHint : 역할 + 기술 이름 + [?] ---------- */
+
+.term {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+}
+
+.term-role {
+  font-size: inherit;
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+.term-tech {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--text-on-fill);
+}
+
+.term-toggle {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text-on-fill);
+  font-size: 0.6875rem;
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.term-toggle:hover { border-color: var(--primary); color: var(--primary-dark); }
+.term.is-open .term-toggle { border-color: var(--primary); background: var(--primary-light); color: var(--primary-dark); }
+
+.term-hint {
+  flex: 1 1 100%;
+  margin-top: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--primary-lighter);
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-regular);
+  color: var(--text);
+  line-height: var(--lh-snug);
+}
+
+/* ---------- Disclosure : 자세히 보기 ▾ ---------- */
+
+.disclosure {
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+}
+
+.disclosure + .disclosure { margin-top: var(--space-2); }
+
+.disclosure-summary {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  list-style: none;
+}
+
+.disclosure-summary::-webkit-details-marker { display: none; }
+.disclosure-summary:hover { background: var(--gray-5); }
+
+.disclosure-label {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+.disclosure-note {
+  flex: 1 1 12rem;
+  min-width: 0;
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+  line-height: var(--lh-snug);
+}
+
+.disclosure-mark {
+  margin-left: auto;
+  color: var(--text-on-fill);
+  font-size: var(--fs-xs);
+}
+
+.disclosure[open] > .disclosure-summary { border-bottom: 1px solid var(--border-soft); border-radius: var(--radius-md) var(--radius-md) 0 0; }
+.disclosure[open] > .disclosure-summary .disclosure-mark { transform: rotate(180deg); display: inline-block; }
+
+.disclosure-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  min-width: 0;
+}
+
+.disclosure.is-advanced { border-color: var(--border); background: var(--gray-5); }
+.disclosure.is-quiet { border-style: dashed; background: transparent; }
+
+/* ---------- 용어 한 줄 (역할 → 기술 이름 → 뜻) ----------
+   Hero 에는 용어 사전 블록을 두지 않는다. 실제로 필요해지는 자리에서만 쓴다. */
+
+.termline {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  min-width: 0;
+}
+
+.termline-role { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+.termline-tech { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-on-fill); }
+.termline-hint { flex: 1 1 14rem; min-width: 0; font-size: var(--fs-xs); color: var(--text); line-height: var(--lh-snug); }
+
+/* ---------- 왜 이걸 보나요? ---------- */
+
+.why-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.why-line {
+  font-size: var(--fs-md);
+  color: var(--text);
+  line-height: var(--lh-loose);
+}
+
+.why-line.is-problem {
+  padding: var(--space-4) var(--space-5);
+  border-left: 3px solid var(--point);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--bg-subtle);
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+}
+
+.one-thing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-lg);
+  background: var(--primary-lighter);
+}
+
+.one-thing-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-extrabold);
+  color: var(--primary-dark);
+  letter-spacing: 0.02em;
+}
+
+.one-thing-star { font-size: var(--fs-sm); }
+
+.one-thing-text {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+  line-height: var(--lh-snug);
+}
+
+/* ---------- 이것만 기억하세요 ---------- */
+
+.remember-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.remember-item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--success);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--surface);
+}
+
+.remember-num {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-pill);
+  background: var(--success);
+  color: var(--text-inverse);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+}
+
+.remember-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+  line-height: var(--lh-snug);
+}
+
+/* ---------- CodeExplorer : 이번 Chapter에서 볼 코드 ---------- */
+
+.code-focus {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.code-focus-label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--primary-dark);
+}
+
+.code-focus-lines {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--gray-100);
+  color: #e9ebee;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  line-height: 1.8;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.code-focus-say {
+  font-size: var(--fs-base);
+  color: var(--text);
+  line-height: var(--lh-loose);
+}
+
+.code-focus-file {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+  overflow-wrap: anywhere;
+}
+
+.code-more {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.code-more-note {
+  flex: 1 1 14rem;
+  min-width: 0;
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+  line-height: var(--lh-snug);
+}
+
+/* ---------- Architecture : 별도 축 접기 ---------- */
+
+.arch-aside-fold { margin-top: var(--space-4); }
+.arch-aside-fold .disclosure-body { gap: var(--space-3); }
+/* 접힘 안에서는 위 구분선이 중복되므로 지운다 */
+.arch-aside-fold .arch-aside { padding-top: 0; border-top: 0; }
+
+/* 숫자 코드 이름보다 먼저 나오는 쉬운 한 줄 설명 */
+.result-plain {
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--border-heavy);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--gray-5);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+  line-height: var(--lh-snug);
+}
+
+/* Guided Build — 아직 나오지 않은 줄 표시 */
+.line-option.is-shown { border-left-color: var(--success); }
+.line-later {
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--gray-10);
+  font-size: 0.625rem;
+  color: var(--text-on-fill);
+}
+
+/* ---------- 탐색 안내 (점수 대신) ---------- */
+
+.explore-hint {
+  padding: var(--space-3) var(--space-4);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+  font-size: var(--fs-sm);
+  color: var(--text);
+  line-height: var(--lh-snug);
+}
+
+.explore-hint code {
+  font-family: var(--font-mono);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+/* Folder Tree 항목 옆에 붙는 역할 — 정답 표시가 아니다 */
+.tree-role {
+  margin-left: auto;
+  padding-left: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  color: var(--text-on-fill);
+  white-space: nowrap;
+}
+
+/* ---------- 개념 심화 (Progressive Disclosure) ---------- */
+
+.concept-advanced { margin-top: var(--space-3); }
+.concept-advanced-p { font-size: var(--fs-sm); color: var(--text); line-height: var(--lh-loose); }
+
+/* ---------- Learning Checkpoint ---------- */
+
+.checkpoint {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--success);
+  border-left-width: 3px;
+  border-radius: var(--radius-md);
+  background: var(--success-light);
+}
+
+.checkpoint-mark { font-size: var(--fs-sm); font-weight: var(--fw-extrabold); color: var(--success); }
+.checkpoint-text { flex: 1 1 14rem; min-width: 0; font-size: var(--fs-sm); color: var(--text); line-height: var(--lh-snug); }
+
+/* ---------- 학습용 시뮬레이션 안내 (Mock 대체 표현) ---------- */
+
+.learn-note {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-alt);
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+  line-height: var(--lh-snug);
+}
+
+.learn-note .tag { flex: 0 0 auto; }
+
+/* ---------- Chapter 02 : 요청서 · 응답서 칸 이름 범례 ---------- */
+
+.part-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.part-legend-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: 2px var(--space-3);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-pill);
+  background: var(--surface-alt);
+}
+
+.part-legend-role { font-size: var(--fs-xs); font-weight: var(--fw-bold); color: var(--text-strong); }
+.part-legend-tech { font-family: var(--font-mono); font-size: 0.625rem; color: var(--text-on-fill); }
+
+/* ---------- Guided Flow (Chapter 05) ---------- */
+
+.guided {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius-md);
+  background: var(--primary-lighter);
+}
+
+.guided-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }
+.guided-step { font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: var(--fw-bold); color: var(--primary-dark); }
+.guided-task { flex: 1 1 14rem; min-width: 0; font-size: var(--fs-base); font-weight: var(--fw-bold); color: var(--text-strong); }
+.guided-why { font-size: var(--fs-sm); color: var(--text); line-height: var(--lh-snug); }
+
+.guided-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }
+.guided-cmd { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-on-fill); overflow-wrap: anywhere; }
+.guided-dir { font-size: var(--fs-xs); font-weight: var(--fw-semibold); color: var(--primary-dark); }
+
+.guided-rest { display: flex; flex-direction: column; gap: var(--space-2); }
+
+/* Chapter 05 — Local ↔ Remote 관계를 먼저 이해시키는 블록 */
+.repo-model {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+}
+
+.repo-model-title { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+
+.repo-model-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.repo-model-side {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 12rem;
+  min-width: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.repo-model-role { font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+.repo-model-tech { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-on-fill); }
+.repo-model-link { flex: 0 0 auto; font-size: var(--fs-lg); color: var(--text-on-fill); }
+.repo-model-note { font-size: var(--fs-xs); color: var(--text-on-fill); line-height: var(--lh-snug); }
+
+/* ---------- 제작 정보 (학습과 무관한 Footer 정보) ---------- */
+
+.site-footer-meta { margin-top: var(--space-3); }
+.site-footer-meta .disclosure { background: transparent; border-color: var(--border-soft); }
+.site-footer-meta .disclosure-body p { font-size: var(--fs-xs); color: var(--text-on-fill); line-height: var(--lh-snug); }

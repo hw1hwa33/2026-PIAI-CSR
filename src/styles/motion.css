@@ -1,0 +1,427 @@
+/* ============================================================
+   motion.css — 전환 · 애니메이션 · 모션 끄기
+   .app.no-motion 이 붙으면(사용자 토글 또는 OS 설정) 모든 움직임을 멈춘다.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Keyframes
+   ------------------------------------------------------------ */
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fade-slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translate(-50%, 16px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes led-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.25; }
+}
+
+@keyframes wire-flow {
+  from { stroke-dashoffset: 24; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes ring-pulse {
+  0%   { opacity: 0.65; }
+  70%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes progress-shimmer {
+  0%   { opacity: 0.55; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.55; }
+}
+
+/* ------------------------------------------------------------
+   기본 전환
+   ------------------------------------------------------------ */
+
+.btn,
+.dropdown-item,
+.tag,
+.dropdown-num {
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease);
+}
+
+.btn:active {
+  transform: translateY(1px);
+  transition-duration: var(--dur-instant);
+}
+
+.skip-link {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+/* ------------------------------------------------------------
+   Dropdown
+   ------------------------------------------------------------ */
+
+.dropdown-panel {
+  transform-origin: top right;
+  animation: fade-slide-down var(--dur-base) var(--ease-out) both;
+}
+
+/* ------------------------------------------------------------
+   Toast
+   ------------------------------------------------------------ */
+
+.toast {
+  animation: toast-in var(--dur-base) var(--ease-spring) both;
+}
+
+/* ------------------------------------------------------------
+   ProcessScene
+   ------------------------------------------------------------ */
+
+/* 데이터 점 · 설명 카드는 다음 위치로 부드럽게 이동한다 */
+.packet-group {
+  transition: transform var(--dur-slower) var(--ease-in-out);
+}
+
+/* 처리 중인 서버 LED 는 깜빡이고, 완료된 LED 는 켜져 있다 */
+.led.is-busy {
+  animation: led-pulse 900ms var(--ease-in-out) infinite;
+}
+
+/* 활성 구간의 선은 흐르는 점선으로 방향을 보여 준다 */
+.wire.is-live-req,
+.wire.is-live-res {
+  stroke-dasharray: 10 6;
+  animation: wire-flow 700ms linear infinite;
+}
+
+.bay,
+.led,
+.screen-btn,
+.machine-screen {
+  transition:
+    fill var(--dur-base) var(--ease),
+    stroke var(--dur-base) var(--ease),
+    stroke-width var(--dur-base) var(--ease);
+}
+
+.bay.is-active {
+  filter: drop-shadow(0 0 6px rgba(37, 110, 244, 0.35));
+}
+
+/* 클릭 순간 버튼 주변에 퍼지는 원 (ProcessScene 내부 circle) */
+.screen-btn.is-pressed + text + circle,
+.scene-svg circle[stroke="var(--primary)"] {
+  animation: ring-pulse 800ms var(--ease-out) infinite;
+}
+
+/* 로딩 진행 막대 */
+.scene-svg rect[fill="var(--primary)"] {
+  animation: progress-shimmer 1.2s var(--ease-in-out) infinite;
+}
+
+/* 화면 상태 전환(초기 → 로딩 → 성공) 시 텍스트가 부드럽게 나타난다 */
+.screen-value,
+.screen-score,
+.packet-kind,
+.packet-line {
+  animation: fade-in var(--dur-base) var(--ease-out) both;
+}
+
+/* ------------------------------------------------------------
+   모션 끄기 — 토글(.no-motion) 및 OS 설정
+   ------------------------------------------------------------ */
+
+.no-motion *,
+.no-motion *::before,
+.no-motion *::after {
+  animation-duration: 1ms !important;
+  animation-iteration-count: 1 !important;
+  animation-delay: 0ms !important;
+  transition-duration: 1ms !important;
+  transition-delay: 0ms !important;
+  scroll-behavior: auto !important;
+}
+
+.no-motion .wire.is-live-req,
+.no-motion .wire.is-live-res {
+  stroke-dasharray: none;
+}
+
+.no-motion .btn:active {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .wire.is-live-req,
+  .wire.is-live-res {
+    stroke-dasharray: none;
+  }
+}
+
+/* ============================================================
+   추가분 — 새 컴포넌트의 전환
+   ============================================================ */
+
+.arch-node,
+.arch-edge-line,
+.code-tab,
+.code-text--link,
+.step-dot,
+.error-head {
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    width var(--dur-base) var(--ease),
+    height var(--dur-fast) var(--ease),
+    opacity var(--dur-fast) var(--ease);
+}
+
+.arch-node.is-live {
+  box-shadow: 0 0 0 4px rgba(37, 110, 244, 0.14);
+}
+
+.arch-node.is-error {
+  box-shadow: 0 0 0 4px rgba(222, 52, 18, 0.14);
+}
+
+.step-info,
+.result-card,
+.error-body {
+  animation: fade-in var(--dur-base) var(--ease-out) both;
+}
+
+.toast { will-change: transform, opacity; }
+
+/* ============================================================
+   COMPLIANCE — PROCESS_ANIMATION_SPEC §8.3 / §20, 11_PROJECT_UI_SPEC §20
+   금지: 장식용 LED 무한 깜빡임 · 무한 Packet Animation ·
+         지속적으로 시선을 빼앗는 Pulse · 과한 탄성 Easing
+   아래 규칙이 앞의 무한 애니메이션을 대체한다.
+   ============================================================ */
+
+/* 활성 LED 는 깜빡이지 않고 "켜진 상태"로 유지한다. 색 외에 링으로도 구분한다. */
+.led.is-busy {
+  animation: none;
+  fill: var(--primary);
+  stroke: var(--primary-light);
+  stroke-width: 4;
+}
+
+.led.is-on {
+  animation: none;
+  stroke: var(--success-light);
+  stroke-width: 3;
+}
+
+/* 활성 배선의 흐름 표시는 방향만 알리고 멈춘다 (무한 반복 아님) */
+.wire.is-live-req,
+.wire.is-live-res {
+  stroke-dasharray: 10 6;
+  animation: wire-flow 700ms linear 3;
+}
+
+/* Request 와 Response 는 점선 패턴도 다르게 해 색맹 사용자도 구분할 수 있게 한다 */
+.wire.is-live-res {
+  stroke-dasharray: 3 5;
+}
+
+/* 클릭 파동 · 진행 막대도 유한 반복으로 제한한다 */
+.screen-btn.is-pressed + text + circle,
+.scene-svg circle[stroke="var(--primary)"] {
+  animation: ring-pulse 800ms var(--ease-out) 2;
+}
+
+.scene-svg rect[fill="var(--primary)"] {
+  animation: progress-shimmer 1.2s var(--ease-in-out) 3;
+}
+
+/* §8.3 과한 탄성 금지 — Toast 는 표준 ease-out 으로 */
+.toast {
+  animation: toast-in var(--dur-base) var(--ease-out) both;
+}
+
+/* 새로 추가된 조작 요소의 전환 */
+.role-item,
+.scene-hit-area,
+.code-copy,
+.step-preview {
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    stroke var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease);
+}
+
+/* Reduced Motion / 모션 끔 — SPEC §9
+   Packet 은 이동하지 않고 즉시 해당 위치로 전환되고,
+   의미는 Node/Edge 강조 · 라벨 · 설명 텍스트로 전달된다. */
+.no-motion .packet-group,
+.no-motion .wire.is-live-req,
+.no-motion .wire.is-live-res {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .packet-group { transition: none !important; }
+
+  .wire.is-live-req,
+  .wire.is-live-res,
+  .led.is-busy,
+  .screen-btn.is-pressed + text + circle,
+  .scene-svg rect[fill="var(--primary)"] {
+    animation: none !important;
+  }
+
+  /* 이동이 사라져도 방향을 알 수 있도록 선 두께와 패턴은 유지한다 */
+  .wire.is-live-req { stroke-dasharray: 10 6; stroke-width: 3.5; }
+  .wire.is-live-res { stroke-dasharray: 3 5; stroke-width: 3.5; }
+}
+
+/* ============================================================
+   VISUAL POLISH — Glow 제거 · 짧은 상태 전환만 남긴다
+   ============================================================ */
+
+/* active Node 는 Glow 가 아니라 테두리 · 채움 · LED · 텍스트로 구분한다 */
+.bay.is-active { filter: none; }
+
+/* Browser 화면 상태 전환은 짧게. 번쩍임 · Zoom 없음 */
+.machine-screen,
+.screen-field,
+.screen-btn {
+  transition: fill var(--dur-base) var(--ease), stroke var(--dur-base) var(--ease);
+}
+
+.screen-value,
+.screen-score {
+  animation: fade-in var(--dur-slow) var(--ease-out) both;
+}
+
+.bay-state {
+  animation: fade-in var(--dur-fast) var(--ease-out) both;
+}
+
+.wire-label { transition: font-size var(--dur-fast) var(--ease), fill var(--dur-fast) var(--ease); }
+
+@media (prefers-reduced-motion: reduce) {
+  .screen-value,
+  .screen-score,
+  .bay-state { animation: none !important; }
+}
+
+/* ---------- Chapter 02 — 상태 전환 ---------- */
+
+.choice,
+.status-code,
+.part {
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+
+.status-line,
+.wire-block--res {
+  animation: fade-in var(--dur-base) var(--ease-out) both;
+}
+
+/* ---------- Chapter 03 — 상태 전환 ---------- */
+
+.tree-row,
+.arch-axis-node {
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+
+.map-answer,
+.tree-children {
+  animation: fade-in var(--dur-base) var(--ease-out) both;
+}
+
+/* ---------- Chapter 03 File Preview — 전환 ---------- */
+
+.tree-file,
+.file-tab {
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+
+.file-preview { animation: fade-in var(--dur-base) var(--ease-out) both; }
+
+/* ---------- Chapter 04 — 상태 전환 ---------- */
+
+.git-item,
+.arch-axis-node {
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+
+/* 새로 들어온 명령 한 건과 그 설명만 부드럽게 들어온다 */
+.git-item,
+.cmd-entry,
+.cmd-note {
+  animation: fade-in var(--dur-base) var(--ease-out) both;
+}
+
+/* ---------- Chapter 05~15 — 상태 전환 ----------
+   의미 있는 상태 변화에만 짧은 전환을 준다. 장식용 반복 애니메이션은 두지 않는다. */
+
+.repo-card,
+.repo-link,
+.host-card,
+.layer-item,
+.compose-service,
+.fsm-state,
+.rule,
+.branch-arm,
+.route-row,
+.rest-cell,
+.trace-step,
+.shape-badge,
+.axis-node,
+.final-step {
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+
+/* 방금 쌓인 층 · 방금 바뀐 화면만 한 번 나타난다 */
+.layer-item.is-new,
+.container-item,
+.mini-screen,
+.trace-data-body {
+  animation: fade-in var(--dur-base) var(--ease-out) both;
+}
