@@ -91,6 +91,51 @@ const chapter05 = {
       "실행 환경 문제는 Chapter 06부터 다룹니다."
   },
 
+  /*
+   * 설정 파일(YAML 등) 자체를 올리지 말라고 설명하지 않는다.
+   * 올리면 안 되는 것은 그 안에 "직접 적은 비밀값"이다. (CLAUDE.md · 개발자 리뷰 §7)
+   */
+  security: {
+    title: "설정 파일은 올려도 됩니다. 그 안의 비밀값이 문제입니다.",
+    body: [
+      "YAML·설정 파일 자체는 Git에 올려도 됩니다. 다른 사람이 같은 방식으로 실행하려면 오히려 있어야 합니다.",
+      "절대 올리면 안 되는 것은 그 파일 안에 직접 적어 둔 비밀번호·키·토큰입니다. " +
+        "한 번 올라가면 파일을 지워도 기록에는 남습니다.",
+      "실제 값은 GitHub Secrets 같은 비밀값 관리 기능에 넣고, 파일에는 그 값을 불러오는 자리만 남깁니다."
+    ],
+    safe: {
+      label: "자리만 적는다",
+      /* 실제 배포 워크플로가 쓰는 참조 방식 그대로다. 값이 아니라 이름만 적는다. */
+      code: [
+        "# 워크플로 설정 · 값이 아니라 '어디서 가져올지'만 적는다",
+        "- uses: FirebaseExtended/action-hosting-deploy@v0",
+        "  with:",
+        "    repoToken: ${{ secrets.GITHUB_TOKEN }}",
+        "    firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_<PROJECT> }}",
+        "",
+        "# 이 프로젝트의 compose.yaml 도 같은 방식이다",
+        "MYSQL_PASSWORD: ${MYSQL_PASSWORD}"
+      ].join("\n"),
+      note:
+        "이 파일은 저장소에 올라가도 됩니다. ${{ secrets.… }} 는 값이 아니라 " +
+        "\"저장해 둔 비밀값을 이름으로 불러온다\"는 표시이기 때문입니다."
+    },
+    unsafe: {
+      label: "값을 그대로 적는다",
+      code: [
+        "# 이렇게 적으면 저장소에 비밀값이 그대로 남는다",
+        "private_key: \"-----BEGIN PRIVATE KEY-----...\"",
+        "password: \"실제 비밀번호\"",
+        "token: \"실제 토큰\"",
+        "API_KEY: \"실제 비밀키\""
+      ].join("\n"),
+      note: "지워도 기록에 남습니다. 이미 올렸다면 그 값 자체를 즉시 바꿔야 합니다."
+    },
+    foot:
+      "정리하면 — 설정 파일은 공유하고, 비밀값은 분리합니다. " +
+      "이 교안에서는 .env.example만 올리고 실제 값이 든 .env는 올리지 않는 것이 같은 원칙입니다."
+  },
+
   code: [
     {
       id: "gh-first",

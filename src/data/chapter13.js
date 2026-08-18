@@ -106,14 +106,12 @@ const chapter13 = {
     advanced: [
       {
         label: "표 구조는 어떻게 정해지나?",
-        note: "AUTO_INCREMENT · VARCHAR · PRIMARY KEY · NOT NULL",
+        note: "칸마다 담을 값을 미리 정해 둔다",
         body: [
           "표를 만들 때 각 칸이 어떤 값을 담을지 미리 정해 둡니다. 이 정의는 database/init.sql 이 " +
             "처음 실행될 때 한 번 정해집니다.",
-          "번호 칸(id)에는 INT AUTO_INCREMENT PRIMARY KEY 라고 적습니다 — 정수를 담고, 새 줄이 들어올 때마다 " +
-            "번호를 자동으로 매기고, 이 줄이 어느 줄인지 겹치지 않게 구분한다는 뜻입니다.",
-          "이름 칸(name)에는 VARCHAR(100) NOT NULL — 최대 100글자까지 담고, 비워 둘 수 없다는 뜻입니다. " +
-            "점수 칸(score)의 INT NOT NULL 도 같은 방식으로 읽습니다."
+          "한 칸에 여러 단어가 붙어 있어도 한 덩어리로 외울 필요는 없습니다. 단어 하나가 규칙 하나입니다.",
+          "각 단어가 무슨 뜻인지는 위 실습의 '표 구조 자세히 보기'에서 하나씩 확인할 수 있습니다."
         ]
       }
     ]

@@ -168,6 +168,14 @@ export default function SqlTableActivity({
                       </li>
                     ))}
                   </ul>
+
+                  {/* 키워드를 하나씩 본 뒤, 원래 한 줄을 다시 보여 주며 조합해 설명한다 */}
+                  {c.combine ? (
+                    <p className="sql-schema-combine">
+                      <code className="sql-schema-combine-code">{c.combine.code}</code>
+                      <span className="sql-schema-combine-say">{c.combine.say}</span>
+                    </p>
+                  ) : null}
                 </li>
               ))}
             </ul>

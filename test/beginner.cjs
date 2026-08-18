@@ -20,6 +20,7 @@ const DATA = walk("src/data", [".js"]);
 (async () => {
   const course = await load("src/data/course.js");
   const glossary = await load("src/data/glossary.js");
+  const sqlData = await load("src/data/sql.js");
   const chapters = course.COURSE;
 
   /* ---------------------------------------------------------- */
@@ -463,6 +464,133 @@ const DATA = walk("src/data", [".js"]);
     /onClick=\{\(\) => setOpen/.test(readFile("src/components/common/TermHint.jsx")),
     "클릭 토글이 아닙니다"
   );
+
+  /* ---------------------------------------------------------- */
+  section("16. 개발자 리뷰 반영 (Targeted Review Fix)");
+
+  const hero = strip(readFile("src/components/course/ChapterHero.jsx"));
+
+  /* 1. Hero CTA 는 바로 다음에 오는 "왜 이걸 보나요?"를 건너뛰게 만든다 */
+  check("Hero 에 Activity 로 건너뛰는 CTA 가 없다",
+    !/#activity-heading/.test(hero), "CTA Anchor 가 남아 있습니다");
+  check("Hero 에 hero-cta-note 가 없다",
+    !/hero-cta/.test(hero), "hero-cta 마크업이 남아 있습니다");
+  check("Hero CTA CSS 도 함께 제거됐다",
+    !walk("src/styles", [".css"]).some((rel) => /\.hero-cta/.test(readFile(rel))),
+    "hero-cta CSS 가 남아 있습니다");
+
+  /* 2. Hero → 왜 이걸 보나요 → Activity 순서 (건너뛰기 없이 읽어 내려간다) */
+  const pageOrder = readFile("src/components/ChapterPage.jsx");
+  check("WhySection 이 Hero 와 Activity 사이에 있다",
+    pageOrder.indexOf("<ChapterHero") < pageOrder.indexOf("<WhySection")
+      && pageOrder.indexOf("<WhySection") < pageOrder.indexOf("<ActivityRenderer"),
+    "순서가 어긋났습니다");
+
+  /* 3 · 4. 처리 결과 번호는 참고표에서 한 행씩 */
+  const statusRef = strip(readFile("src/components/course/StatusCodeReference.jsx"));
+  check("처리 결과 번호 공통 참고표가 있다",
+    statusRef.includes("자주 보는 처리 결과 번호"), "참고표 제목이 없습니다");
+  check("번호 · 이름 · 의미가 각각 다른 칸이다",
+    /status-ref-code/.test(statusRef) && /status-ref-name/.test(statusRef)
+      && /status-ref-meaning/.test(statusRef),
+    "칸이 분리되어 있지 않습니다");
+  check("Chapter 02 가 참고표를 쓴다",
+    Array.isArray(chapters[1].statusCodes) && chapters[1].statusCodes.includes(200),
+    "Chapter 02 statusCodes 없음");
+  check("Chapter 12 가 참고표를 쓴다",
+    Array.isArray(chapters[11].statusCodes) && chapters[11].statusCodes.includes(405),
+    "Chapter 12 statusCodes 없음");
+  check("용어 사전이 한 문장에 여러 번호를 몰아넣지 않는다",
+    !/200[^"]*404|404[^"]*500/.test(glossary.getTerm("Status Code").hint),
+    glossary.getTerm("Status Code").hint);
+
+  const crammed = chapters.filter((c) =>
+    ((c.concept && c.concept.roles) || []).some(
+      (r) => r.tech === "Status Code" && /200[^.]*40\d|20\d[^.]*20\d/.test(r.desc)));
+  check("Chapter 설명에도 번호를 몰아넣지 않는다", crammed.length === 0,
+    crammed.map((c) => `Chapter ${c.id}`).join(", "));
+
+  /* 5. REST 를 처음 보는 사람에게 주는 설명 */
+  const restPrimer = chapters[11].concept.primer;
+  check("Chapter 12 에 REST 첫 설명이 있다",
+    !!restPrimer && /설계 방법/.test(restPrimer.body.join(" ")), "primer 없음");
+  check("REST 설명 직후에 구체 예가 온다",
+    !!restPrimer && restPrimer.examples.length >= 2
+      && restPrimer.examples.some(([, how]) => how.startsWith("GET "))
+      && restPrimer.examples.some(([, how]) => how.startsWith("PATCH ")),
+    "GET / PATCH 예가 없습니다");
+  check("이 Chapter 의 범위를 명시한다",
+    !!restPrimer && /전체 이론이 아니라/.test(restPrimer.scope), "범위 문장이 없습니다");
+  check("REST 를 JSON 으로 정의하지 않는다",
+    !/REST\s*(는|=)\s*JSON/.test(JSON.stringify(chapters[11])), "REST = JSON 표현이 있습니다");
+
+  /* 7. 설정 파일이 아니라 그 안의 비밀값이 문제다 */
+  const sec = chapters[4].security;
+  check("비밀값 경고 Callout 이 있다", !!sec && !!sec.safe && !!sec.unsafe, "security 데이터 없음");
+  check("YAML 자체를 금지하지 않는다",
+    !!sec && /올려도 됩니다/.test(sec.title + sec.body.join(" ")), "설정 파일 자체를 금지하고 있습니다");
+  check("SAFE 예가 값이 아닌 자리만 담는다",
+    !!sec && /secrets\./.test(sec.safe.code) && /\$\{/.test(sec.safe.code),
+    "SAFE 예에 자리 표시가 없습니다");
+  check("UNSAFE 예가 무엇이 위험한지 보여 준다",
+    !!sec && /private_key|password|token|API_KEY/.test(sec.unsafe.code),
+    "UNSAFE 예가 없습니다");
+  check("Secret 관리 기능을 안내한다",
+    !!sec && /Secrets/.test(sec.body.join(" ")), "Secrets 안내가 없습니다");
+  const callout = strip(readFile("src/components/course/SecurityCallout.jsx"));
+  check("경고를 색상만으로 표현하지 않는다",
+    /⚠/.test(callout) && /SAFE/.test(callout) && /UNSAFE/.test(callout),
+    "아이콘 또는 SAFE / UNSAFE 라벨이 없습니다");
+
+  /* 실제 비밀값을 코드에 넣지 않는다 */
+  const realSecret = [...DATA, ...JSX].filter((rel) => {
+    const t = readFile(rel);
+    return /-----BEGIN [A-Z ]*PRIVATE KEY-----[A-Za-z0-9+/=]{20,}/.test(t)
+      || /(?:AIza[0-9A-Za-z_-]{30,}|ghp_[0-9A-Za-z]{30,}|sk-[0-9A-Za-z]{30,})/.test(t);
+  });
+  check("실제 Secret 문자열이 저장소에 없다", realSecret.length === 0, realSecret.join(", "));
+
+  /* 8. 코드 주석 표현 */
+  const awkward = [...DATA, ...JSX].filter((rel) => /처지/.test(readFile(rel)));
+  check("'처지' 같은 어색한 상태 표현이 없다", awkward.length === 0, awkward.join(", "));
+  check("React 주석이 무엇을 저장하는지 밝힌다",
+    chapters[8].codeFocus.lines.join(" ").includes("받은 학생 데이터를 저장한다"),
+    "주석이 교정되지 않았습니다");
+  const typo = [...DATA, ...JSX].filter((rel) => /susses|succes[^s]/.test(readFile(rel)));
+  check("success 철자가 온전하다", typo.length === 0, typo.join(", "));
+
+  /* 9. Frontend ↔ DB 를 웹 전체의 절대 규칙처럼 쓰지 않는다 */
+  const absolute = [...DATA, ...JSX].filter((rel) => {
+    const t = strip(readFile(rel));
+    return /(MySQL에 직접 접속하지 않는다|MySQL에 직접 연결하지 않습니다|API를 통해서만 데이터를 얻)/.test(t);
+  });
+  check("Frontend / DB 를 절대 규칙으로 쓰지 않는다", absolute.length === 0, absolute.join(", "));
+  check("이 프로젝트의 구조임을 명시한다",
+    /이 프로젝트에서는 화면이 API에 데이터를 요청하고/.test(chapters[8].concept.note),
+    "프로젝트 한정 표현이 없습니다");
+
+  /* 10. SQL Schema 키워드를 하나씩 분해하고 마지막에 다시 조합한다 */
+  const idCol = sqlData.COLUMNS.find((c) => c.id === "id");
+  const keywords = idCol.parts.map(([k]) => k);
+  for (const k of ["INT", "AUTO_INCREMENT", "PRIMARY KEY"]) {
+    check(`${k} 가 별도 항목으로 설명된다`, keywords.includes(k), keywords.join(" · "));
+  }
+  check("VARCHAR(100) 도 별도 항목이다",
+    sqlData.COLUMNS.find((c) => c.id === "name").parts.some(([k]) => k.startsWith("VARCHAR")),
+    "VARCHAR 항목 없음");
+  check("NOT NULL 도 별도 항목이다",
+    sqlData.COLUMNS.find((c) => c.id === "name").parts.some(([k]) => k === "NOT NULL"),
+    "NOT NULL 항목 없음");
+  check("PRIMARY KEY 가 중복되지 않음을 설명한다",
+    /중복되지 않게/.test(idCol.parts.find(([k]) => k === "PRIMARY KEY")[1]),
+    "중복 설명이 없습니다");
+  check("마지막에 한 줄로 다시 조합해 설명한다",
+    !!idCol.combine && idCol.combine.code === "id INT AUTO_INCREMENT PRIMARY KEY"
+      && /고유한 정수 번호/.test(idCol.combine.say),
+    "조합 설명이 없습니다");
+  check("조합 설명이 화면에 그려진다",
+    /sql-schema-combine/.test(readFile("src/activities/sql/SqlTableActivity.jsx")),
+    "combine 렌더가 없습니다");
 
   /* ---------------------------------------------------------- */
   section("15. Course Copy");

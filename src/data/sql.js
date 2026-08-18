@@ -27,11 +27,16 @@ export const COLUMNS = [
     label: "번호",
     type: "INT AUTO_INCREMENT PRIMARY KEY",
     role: "행을 구분하는 번호 · 새 행이 들어오면 자동으로 붙는다",
+    /* 한 문장으로 몰아 설명하지 않는다. 키워드를 하나씩 본 뒤 마지막에 다시 조합한다. */
     parts: [
-      ["INT", "정수를 담는 칸"],
-      ["AUTO_INCREMENT", "새 행이 들어올 때마다 번호를 자동으로 매겨 준다"],
-      ["PRIMARY KEY", "이 줄이 어느 줄인지 겹치지 않게 구분해 주는 대표 번호"]
-    ]
+      ["INT", "정수를 저장한다."],
+      ["AUTO_INCREMENT", "새 데이터가 들어올 때 번호를 자동으로 증가시킨다."],
+      ["PRIMARY KEY", "각 행을 구분하는 대표 값이다. 중복되지 않게 관리된다."]
+    ],
+    combine: {
+      code: "id INT AUTO_INCREMENT PRIMARY KEY",
+      say: "따라서 id는 자동으로 번호가 붙는 각 행의 고유한 정수 번호입니다."
+    }
   },
   {
     id: "name",
@@ -39,9 +44,13 @@ export const COLUMNS = [
     type: "VARCHAR(100) NOT NULL",
     role: "이름 · 비어 있을 수 없다",
     parts: [
-      ["VARCHAR(100)", "글자를 담는 칸 · 괄호 안 숫자는 담을 수 있는 최대 길이"],
-      ["NOT NULL", "값을 반드시 적어야 한다"]
-    ]
+      ["VARCHAR(100)", "최대 100자 문자열을 저장한다."],
+      ["NOT NULL", "값을 비워 둘 수 없다."]
+    ],
+    combine: {
+      code: "name VARCHAR(100) NOT NULL",
+      say: "따라서 name은 반드시 값이 있어야 하는, 최대 100자까지의 이름입니다."
+    }
   },
   {
     id: "score",
@@ -49,9 +58,13 @@ export const COLUMNS = [
     type: "INT NOT NULL",
     role: "점수 · 비어 있을 수 없다",
     parts: [
-      ["INT", "소수점 없는 숫자를 담는 칸"],
-      ["NOT NULL", "값을 반드시 적어야 한다"]
-    ]
+      ["INT", "정수를 저장한다."],
+      ["NOT NULL", "값을 비워 둘 수 없다."]
+    ],
+    combine: {
+      code: "score INT NOT NULL",
+      say: "따라서 score는 반드시 값이 있어야 하는 정수 점수입니다."
+    }
   }
 ];
 

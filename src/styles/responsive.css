@@ -541,3 +541,25 @@
   .term-hint { font-size: 0.6875rem; }
   .code-focus-lines { padding: var(--space-3); font-size: 0.6875rem; }
 }
+
+/* ---------- REVIEW FIX — 참고표 · 보안 대조 · Primer ---------- */
+
+@media (max-width: 768px) {
+  /* 번호 · 이름 · 의미 · 언제 가 각각 한 행으로 쌓인다 */
+  .status-ref-row { grid-template-columns: 3.25rem minmax(0, 1fr); }
+  .status-ref-name { grid-column: 2; }
+  .status-ref-meaning { grid-column: 2; }
+  .status-ref-when { grid-column: 2; }
+
+  .security-compare { grid-template-columns: minmax(0, 1fr); }
+  .security-callout { padding: var(--space-4); }
+
+  .primer { padding: var(--space-4); }
+  .primer-what { flex-basis: 100%; }
+}
+
+@media (max-width: 480px) {
+  .status-ref { padding: var(--space-3); }
+  .status-ref-row { padding: var(--space-2); }
+  .security-code { padding: var(--space-2); font-size: 0.6875rem; }
+}

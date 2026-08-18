@@ -220,8 +220,8 @@ export default function StateMachineActivity({
         </div>
 
         <p className="map-foot">
-          화면은 데이터를 직접 갖고 있지 않습니다. API를 통해 받은 값을 상태에 넣을 뿐이고,
-          MySQL에 직접 연결하지 않습니다.
+          화면은 데이터를 직접 갖고 있지 않습니다. 이 프로젝트에서는 화면이 API에 데이터를 요청하고,
+          데이터베이스 접근은 서버가 담당합니다.
         </p>
       </div>
     </section>

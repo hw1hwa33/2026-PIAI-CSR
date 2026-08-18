@@ -1,4 +1,6 @@
 import Disclosure from "../common/Disclosure.jsx";
+import StatusCodeReference from "./StatusCodeReference.jsx";
+import SecurityCallout from "./SecurityCallout.jsx";
 import { getTerm } from "../../data/glossary.js";
 
 /*
@@ -27,6 +29,30 @@ export default function ConceptSection({ chapter, selectedNode, onSelectNode }) 
     <section className="section" aria-labelledby="concept-heading">
       {/* 제작 규칙 이름(Role Before Tool 등)을 사용자 화면에 노출하지 않는다 */}
       <h2 className="section-title" id="concept-heading">조금 더 알아보기</h2>
+
+      {/* 처음 보는 이름이 이 Chapter 의 주제일 때, 뜻과 예를 먼저 한 번 묶어 준다 */}
+      {concept.primer ? (
+        <div className="primer">
+          <p className="primer-title">{concept.primer.title}</p>
+          {concept.primer.body.map((line) => (
+            <p className="primer-body" key={line}>{line}</p>
+          ))}
+          {concept.primer.examples ? (
+            <ul className="primer-examples">
+              {concept.primer.examples.map(([what, how]) => (
+                <li className="primer-example" key={how}>
+                  <span className="primer-what">{what}</span>
+                  <code className="primer-how">{how}</code>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {concept.primer.scope ? (
+            <p className="primer-scope">{concept.primer.scope}</p>
+          ) : null}
+        </div>
+      ) : null}
+
       {concept.lead ? <p className="concept-lead">{concept.lead}</p> : null}
 
       <dl className="role-list">
@@ -67,6 +93,12 @@ export default function ConceptSection({ chapter, selectedNode, onSelectNode }) 
       </dl>
 
       {concept.note ? <p className="concept-note">{concept.note}</p> : null}
+
+      {/* 자주 보는 처리 결과 번호 — 번호마다 한 행 (CLAUDE.md) */}
+      <StatusCodeReference codes={chapter.statusCodes} />
+
+      {/* 비밀값 취급 주의 — Safe / Unsafe 대조 */}
+      <SecurityCallout data={chapter.security} />
 
       {/*
         Progressive Disclosure (CLAUDE.md §3)

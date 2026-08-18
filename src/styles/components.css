@@ -1611,20 +1611,7 @@ rect.packet-card.is-response { stroke: var(--response); stroke-width: 2; stroke-
 .section-title { font-size: clamp(1.125rem, 0.98rem + 0.7vw, 1.375rem); }
 
 /* Hero CTA — 첫 화면에서 다음 행동을 명확히 한다 */
-.hero-cta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-}
-
-.hero-cta .btn { text-decoration: none; }
-.hero-cta .btn:hover { color: var(--text-inverse); }
-
-.hero-cta-note {
-  font-size: var(--fs-xs);
-  color: var(--text-subtle);
-}
+/* Hero 에는 Activity 로 건너뛰는 CTA 를 두지 않는다 — 바로 다음 구간을 건너뛰게 만든다. */
 
 /* ============================================================
    CHAPTER 01 VISUAL POLISH
@@ -4669,3 +4656,199 @@ rect.packet-card.is-response { stroke: var(--response); stroke-width: 2; stroke-
 .site-footer-meta { margin-top: var(--space-3); }
 .site-footer-meta .disclosure { background: transparent; border-color: var(--border-soft); }
 .site-footer-meta .disclosure-body p { font-size: var(--fs-xs); color: var(--text-on-fill); line-height: var(--lh-snug); }
+
+/* ============================================================
+   REVIEW FIX — 처리 결과 번호 참고표 · 보안 대조 · 용어 Primer
+   ============================================================ */
+
+/* ---------- 자주 보는 처리 결과 번호 ---------- */
+
+.status-ref {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+}
+
+.status-ref-title { font-size: var(--fs-md); font-weight: var(--fw-bold); color: var(--text-strong); }
+.status-ref-note { font-size: var(--fs-xs); color: var(--text-on-fill); line-height: var(--lh-snug); }
+
+.status-ref-list { display: flex; flex-direction: column; gap: var(--space-1); }
+
+/* 번호 · 이름 · 의미 · 언제 를 각각 다른 칸에 둔다 */
+.status-ref-row {
+  display: grid;
+  grid-template-columns: 3.25rem 10rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--border-strong);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--surface);
+}
+
+.status-ref-row.is-2xx { border-left-color: var(--success); }
+.status-ref-row.is-4xx { border-left-color: var(--warning); }
+.status-ref-row.is-5xx { border-left-color: var(--danger); }
+
+.status-ref-code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-extrabold);
+  color: var(--text-strong);
+}
+
+.status-ref-name {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+  overflow-wrap: anywhere;
+}
+
+.status-ref-meaning {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+  line-height: var(--lh-snug);
+}
+
+.status-ref-when {
+  grid-column: 3;
+  font-size: var(--fs-xs);
+  color: var(--text-on-fill);
+  line-height: var(--lh-snug);
+}
+
+/* ---------- 보안 주의 (Safe / Unsafe) ---------- */
+
+.security-callout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  padding: var(--space-5);
+  border: 2px solid var(--danger);
+  border-radius: var(--radius-md);
+  background: var(--danger-light);
+}
+
+.security-head { display: flex; align-items: baseline; gap: var(--space-2); }
+.security-icon { font-size: var(--fs-lg); }
+.security-title { font-size: var(--fs-md); font-weight: var(--fw-extrabold); color: var(--text-strong); }
+.security-body { font-size: var(--fs-sm); color: var(--text); line-height: var(--lh-loose); }
+
+.security-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.security-case {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  min-width: 0;
+}
+
+.security-case.is-safe { border-color: var(--success); }
+.security-case.is-unsafe { border-color: var(--danger); border-style: dashed; }
+
+.security-case-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2); }
+
+.security-badge {
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: 0.625rem;
+  font-weight: var(--fw-extrabold);
+  letter-spacing: 0.04em;
+}
+
+.security-badge.is-safe { background: var(--success); color: var(--text-inverse); }
+.security-badge.is-unsafe { background: var(--danger); color: var(--text-inverse); }
+
+.security-case-label { font-size: var(--fs-xs); font-weight: var(--fw-bold); color: var(--text-strong); }
+
+.security-code {
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--gray-100);
+  color: #e9ebee;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  line-height: 1.7;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.security-case-note { font-size: var(--fs-xs); color: var(--text-on-fill); line-height: var(--lh-snug); }
+.security-foot { font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--text-strong); line-height: var(--lh-snug); }
+
+/* ---------- 용어 Primer (이 Chapter 주제어의 뜻과 예) ---------- */
+
+.primer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--primary-lighter);
+}
+
+.primer-title { font-size: var(--fs-md); font-weight: var(--fw-bold); color: var(--text-strong); }
+.primer-body { font-size: var(--fs-base); color: var(--text); line-height: var(--lh-loose); }
+
+.primer-examples { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.primer-example {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.primer-what { flex: 0 0 auto; font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--text-strong); }
+.primer-how { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--text); overflow-wrap: anywhere; }
+.primer-scope { font-size: var(--fs-xs); color: var(--text-on-fill); line-height: var(--lh-snug); }
+
+/* SQL 키워드를 하나씩 본 뒤 다시 조합해 보여 주는 줄 */
+.sql-schema-combine {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--primary-lighter);
+}
+
+.sql-schema-combine-code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+  overflow-wrap: anywhere;
+}
+
+.sql-schema-combine-say {
+  flex: 1 1 14rem;
+  min-width: 0;
+  font-size: var(--fs-xs);
+  color: var(--text);
+  line-height: var(--lh-snug);
+}

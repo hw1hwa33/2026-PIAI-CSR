@@ -3,14 +3,14 @@
  *
  * 필드가 "있는가"가 아니라, Chapter 에 들어온 직후 실제로 보이는 Copy 만 모아서 검사한다.
  * 첫 화면 = ChapterHero + WhySection 이 렌더하는 텍스트뿐이다.
- *   Hero  : 제목 · 핵심 질문 · 소개 · CTA
+ *   Hero  : 제목 · 핵심 질문 · 소개  (CTA 는 두지 않는다 — 다음 구간을 건너뛰게 만든다)
  *   Why   : 문제 상황 · 이번에는 이것만 보면 됩니다
  * (tags · objectives · 용어 사전 블록은 렌더되지 않으므로 포함하지 않는다)
  *
  * 검사 기준
  *   A 지금 무슨 상황인지 안다      — 핵심 질문과 소개가 있다
  *   B 왜 이걸 보는지 안다          — 문제 상황 + 이번에 볼 것 하나가 있다
- *   C 뭘 눌러야 하는지 안다        — 행동을 지시하는 CTA 가 있다
+ *   C 다음에 무엇이 오는지 안다    — 건너뛰기 없이 실습으로 이어진다
  *   D 영어 기술 용어가 몰리지 않는다 — 그 Chapter 의 주제어를 빼고 3개 미만
  *   E 구현 코드가 보이지 않는다     — 코드 조각 · 경로 · 명령이 없다
  *
@@ -20,7 +20,7 @@ const { check, load, section, report } = require("./lib.cjs");
 
 /* Hero 와 Why 가 실제로 렌더하는 문자열만 모은다 */
 function firstScreenCopy(c) {
-  const parts = [c.title, c.coreQuestion, c.intro, c.activity && c.activity.cta];
+  const parts = [c.title, c.coreQuestion, c.intro];
   parts.push(...(c.whyItMatters || []));
   parts.push(c.oneThing);
   return parts.filter(Boolean);
@@ -90,14 +90,22 @@ const CODE_HINTS = [
     longOne.map((c) => `Chapter ${c.id}: ${c.oneThing.length}자`).join(" | "));
 
   /* ---------------------------------------------------------- */
-  section("C. 뭘 눌러야 하는지 안다");
+  section("C. 다음에 무엇이 오는지 안다");
 
-  const noCta = chapters.filter((c) => !c.activity || !c.activity.cta);
-  check("모든 Chapter 에 CTA 가 있다", noCta.length === 0, noCta.map((c) => c.id).join(", "));
+  /* Hero 에서 Activity 로 건너뛰게 하지 않는다. 그냥 아래로 읽어 내려가면 된다. */
+  const heroSrc = require("fs").readFileSync(
+    require("path").join(__dirname, "..", "src/components/course/ChapterHero.jsx"), "utf8");
+  check("Hero 에 Activity 로 점프하는 CTA 가 없다",
+    !/#activity-heading/.test(heroSrc), "CTA Anchor 가 남아 있습니다");
 
-  const passiveCta = chapters.filter((c) => !/보기|해 보기|보내 보기|돌려 보기|입력해|열어 보기|시작하기/.test(c.activity.cta));
-  check("CTA 가 행동을 지시한다", passiveCta.length === 0,
-    passiveCta.map((c) => `Chapter ${c.id}: ${c.activity.cta}`).join(" | "));
+  /* 첫 화면의 마지막 문장이 "이번에는 이것만 보면 됩니다"라서 자연스럽게 실습으로 이어진다 */
+  const noOneThing = chapters.filter((c) => !c.oneThing);
+  check("첫 화면이 이번에 볼 것 하나로 끝난다", noOneThing.length === 0,
+    noOneThing.map((c) => c.id).join(", "));
+
+  const noActivity = chapters.filter((c) => !c.activity);
+  check("바로 다음에 직접 해보는 구간이 온다", noActivity.length === 0,
+    noActivity.map((c) => c.id).join(", "));
 
   /* ---------------------------------------------------------- */
   section("D. 영어 기술 용어가 한꺼번에 몰리지 않는다");

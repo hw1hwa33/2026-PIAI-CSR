@@ -31,15 +31,15 @@ const chapter09 = {
 
   objectives: [
     "클릭 → 요청 → 결과 받음 → 기억해 둠 → 다시 그림 순서",
-    "화면의 네 가지 처지 — 대기 · 불러오는 중 · 성공 · 실패",
-    "화면이 데이터를 얻는 유일한 통로는 API라는 점"
+    "화면의 네 가지 상태 — 대기 · 불러오는 중 · 성공 · 실패",
+    "이 프로젝트에서 화면이 데이터를 얻는 통로는 API라는 점"
   ],
 
   codeIntro:
     "코드를 다 읽지 않아도 됩니다. 흐름에서 '기억해 두는 부분'과 '다시 그리는 부분' 두 줄만 봅니다.",
 
   codeFocus: {
-    lines: ['setStudent(data);      // 받은 값을 기억해 둔다', 'setStatus("success");  // 지금 처지를 바꾼다'],
+    lines: ['setStudent(data);      // 받은 학생 데이터를 저장한다', 'setStatus("success");  // 조회가 끝났으므로 성공 상태로 바꾼다'],
     say:
       "화면이 바뀌는 이유는 데이터가 도착해서가 아닙니다. 이 두 줄로 화면이 기억하는 값이 바뀌고, " +
       "그때 React가 화면을 다시 그립니다. 이 두 줄이 없으면 응답이 와도 화면은 그대로입니다.",
@@ -55,7 +55,7 @@ const chapter09 = {
     scopeNotes: {
       nginx: "요청이 나가는 다음 칸입니다. Nginx의 판단은 Chapter 10에서 봅니다.",
       flask: "응답을 만들어 주는 곳입니다. Flask 코드는 Chapter 11에서 봅니다.",
-      mysql: "화면은 여기에 직접 연결하지 않습니다. 데이터 저장과 SQL은 Chapter 13에서 봅니다."
+      mysql: "이 프로젝트에서는 화면이 여기에 직접 연결하지 않고 API를 거칩니다. 데이터 저장과 SQL은 Chapter 13에서 봅니다."
     }
   },
 
@@ -66,7 +66,7 @@ const chapter09 = {
       "화면을 바꾸는 것은 데이터가 도착한 사실이 아니라, 기억해 둔 값이 바뀌었다는 사실입니다.",
     roles: [
       {
-        role: "지금 화면이 어떤 처지인지 나타내는 값",
+        role: "지금 화면이 어떤 상태인지 나타내는 값",
         tech: "State (상태)",
         node: "browser",
         desc:
@@ -93,8 +93,9 @@ const chapter09 = {
       }
     ],
     note:
-      "화면은 데이터 저장(MySQL)에 직접 연결하지 않습니다. 항상 API를 거칩니다. " +
-      "이 규칙 덕분에 데이터베이스 접속 정보가 사용자 컴퓨터로 내려가지 않습니다.",
+      "이 프로젝트에서는 화면이 API에 데이터를 요청하고, 데이터베이스 접근은 서버가 담당합니다. " +
+      "브라우저에서 실행되는 화면 코드에 데이터베이스 접속 정보를 직접 두지 않도록 " +
+      "Frontend와 Database 사이에 Backend API를 둔 구조입니다.",
 
     checkpoint:
       "여기까지 보면 이번 Chapter는 충분합니다 — 사용자 행동 → 기억해 둔 값 변경 → 화면 다시 그리기, " +
@@ -127,7 +128,7 @@ const chapter09 = {
         { t: 'import { useState } from "react";', node: "browser" },
         { t: "", node: null },
         { t: "export default function App() {", node: "browser" },
-        { t: '  const [status, setStatus] = useState("idle");   // 화면의 처지', node: "browser" },
+        { t: '  const [status, setStatus] = useState("idle");   // 화면의 현재 상태', node: "browser" },
         { t: "  const [student, setStudent] = useState(null);   // 받은 데이터", node: "browser" },
         { t: "", node: null },
         { t: "  async function loadStudent(id) {", node: "browser" },
@@ -208,13 +209,13 @@ const chapter09 = {
     remember: [
       "화면이 바뀌는 이유는 데이터가 도착해서가 아니라, 기억해 둔 값이 바뀌었기 때문이다.",
       "사용자 행동 → 값 변경 → 화면 다시 그리기, 이 순서면 충분하다.",
-      "화면은 데이터 저장소에 직접 붙지 않고 항상 API를 거친다."
+      "이 프로젝트에서는 화면이 API에 요청하고, 데이터베이스 접근은 서버가 맡는다."
     ],
     points: [
       "사용자 행동 → 상태 변화 → 화면 변화 순서로 움직인다.",
       "화면은 데이터를 갖고 있지 않고 상태에 따라 다시 그려진다.",
       "idle · loading · success · error 네 상태만으로 조회 화면을 설명할 수 있다.",
-      "화면은 API를 통해서만 데이터를 얻고, MySQL에 직접 접속하지 않는다."
+      "이 프로젝트에서는 화면이 API로 데이터를 받고, 데이터베이스 접근은 서버가 담당한다."
     ],
     keywords: ["useState", "fetch", "status", "render", "idle/loading/success/error"],
     position:
